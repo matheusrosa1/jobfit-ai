@@ -3,6 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
+import { JobModule } from './job/job.module';
+import { ApplicationModule } from './application/application.module';
+import { AiService } from './ai/ai.service';
 
 @Module({
   imports: [
@@ -20,8 +24,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       migrations: [`${__dirname}/migrations/*{.ts,.js}`],
       migrationsRun: true,
     }),
+    UserModule,
+    JobModule,
+    ApplicationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AiService],
 })
 export class AppModule {}
