@@ -8,7 +8,7 @@ RUN npm install
 COPY . .
 
 # Expõe a porta da aplicação
-EXPOSE 3001
+EXPOSE 3000
 
 # Comando de inicialização
 CMD ["npm", "run", "start:dev"]
