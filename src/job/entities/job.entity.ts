@@ -23,14 +23,18 @@ export class Job {
   location: string;
 
   @Column({
+    name: 'job_type',
     type: 'enum',
     enum: ['presencial', 'remoto', 'híbrido'],
     default: 'presencial',
   })
   jobType: 'presencial' | 'remoto' | 'híbrido';
 
-  @Column({ nullable: true })
+  @Column({ name: 'salary_range', nullable: true })
   salaryRange: string;
+
+  @Column({ nullable: true })
+  requirements: string;
 
   @CreateDateColumn({ name: 'posted_at' })
   postedAt: Date;
