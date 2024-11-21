@@ -12,24 +12,28 @@ import {
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @IsString()
-  @Length(3, 100, { message: 'O nome deve ter entre 3 e 100 caracteres.' })
+  @Length(3, 100, {
+    message: 'The name must be between 3 and 100 characters long.',
+  })
   name?: string;
 
   @IsOptional()
-  @IsEmail({}, { message: 'O e-mail fornecido é inválido.' })
+  @IsEmail({}, { message: 'The email address provided is invalid.' })
   email?: string;
 
   @IsOptional()
   @IsString()
-  @Length(6, 50, { message: 'A senha deve ter entre 6 e 50 caracteres.' })
+  @Length(6, 50, {
+    message: 'The password must be between 6 and 50 characters long.',
+  })
   @Matches(/^(?=.*[A-Z])(?=.*\d).+$/, {
-    message: 'A senha deve conter pelo menos uma letra maiúscula e um número.',
+    message:
+      'The password must contain at least one uppercase letter and one number.',
   })
   password?: string;
 
-  @IsOptional()
   @IsEnum(['candidate', 'recruiter'], {
-    message: "O papel deve ser 'candidate' ou 'recruiter'.",
+    message: "The role should be 'candidate' or 'recruiter'.",
   })
   role?: 'candidate' | 'recruiter';
 }
