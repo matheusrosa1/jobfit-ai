@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Application } from './entities/application.entity';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
 
 @Injectable()
 export class ApplicationService {
-  create(createApplicationDto: CreateApplicationDto) {
-    return 'This action adds a new application';
+  constructor(
+    @InjectRepository(Application)
+    private readonly applicationRepository: Repository<Application>,
+  ) {}
+
+  async create(
+    createApplicationDto: CreateApplicationDto,
+  ): Promise<Application> {
+    const application = this.applicationRepository.create(createApplicationDto);
+    return this.applicationRepository.save(application);
   }
 
-  findAll() {
-    return `This action returns all application`;
+  async findAll(): Promise<Application[]> {
+    return this.applicationRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} application`;
+  async findOne(id: string): Promise<Application> {
+    return this.applicationRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateApplicationDto: UpdateApplicationDto) {
-    return `This action updates a #${id} application`;
+  async update(
+    id: string,
+    updateApplicationDto: UpdateApplicationDto,
+  ): Promise<Application> {
+    await this.applicationRepository.update(id, updateApplicationDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} application`;
+  async remove(id: string): Promise<void> {
+    await this.applicationRepository.delete(id);
   }
 }
