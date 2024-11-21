@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Application } from './entities/application.entity';
-import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
 
 @Injectable()
@@ -12,10 +11,8 @@ export class ApplicationService {
     private readonly applicationRepository: Repository<Application>,
   ) {}
 
-  async create(
-    createApplicationDto: CreateApplicationDto,
-  ): Promise<Application> {
-    const application = this.applicationRepository.create(createApplicationDto);
+  async create(data: Partial<Application>): Promise<Application> {
+    const application = this.applicationRepository.create(data);
     return this.applicationRepository.save(application);
   }
 

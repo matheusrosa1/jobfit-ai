@@ -1,13 +1,13 @@
-import { IsEnum, IsNotEmpty } from 'class-validator';
-import { User } from '../../user/entities/user.entity';
-import { Job } from '../../job/entities/job.entity';
+import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
 
 export class CreateApplicationDto {
+  @IsUUID()
   @IsNotEmpty()
-  user: User;
+  userId: string; // Apenas o ID do usuário
 
+  @IsUUID()
   @IsNotEmpty()
-  job: Job;
+  jobId: string; // Apenas o ID do job
 
   @IsEnum(['pending', 'in_review', 'approved', 'rejected'], {
     message:

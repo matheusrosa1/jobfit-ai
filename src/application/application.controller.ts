@@ -6,21 +6,42 @@ import {
   Param,
   Put,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { UpdateApplicationDto } from './dto/update-application.dto';
 import { Application } from './entities/application.entity';
+import { UserService } from '../user/user.service';
+import { JobService } from 'src/job/job.service';
 
 @Controller('applications')
 export class ApplicationController {
-  constructor(private readonly applicationService: ApplicationService) {}
+  constructor(
+    private readonly applicationService: ApplicationService,
+    private readonly userService: UserService,
+    private readonly jobService: JobService,
+  ) {}
 
   @Post()
   async create(
     @Body() createApplicationDto: CreateApplicationDto,
   ): Promise<Application> {
-    return this.applicationService.create(createApplicationDto);
+    const user = await this.userService.findOne(createApplicationDto.userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const job = await this.jobService.findOne(createApplicationDto.jobId);
+    if (!job) {
+      throw new NotFoundException('Job not found');
+    }
+
+    return this.applicationService.create({
+      user,
+      job,
+      status: createApplicationDto.status,
+    });
   }
 
   @Get()

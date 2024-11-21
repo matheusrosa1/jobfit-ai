@@ -15,10 +15,10 @@ export class Application {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, { eager: true })
+  @ManyToOne(() => User)
   user: User;
 
-  @ManyToOne(() => Job, { eager: true })
+  @ManyToOne(() => Job)
   job: Job;
 
   @Column({
