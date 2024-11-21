@@ -6,6 +6,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Job } from '../../job/entities/job.entity';
@@ -16,9 +17,11 @@ export class Application {
   id: string;
 
   @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @ManyToOne(() => Job)
+  @JoinColumn({ name: 'job_id' })
   job: Job;
 
   @Column({
