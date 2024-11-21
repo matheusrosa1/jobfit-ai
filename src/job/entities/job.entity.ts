@@ -25,10 +25,10 @@ export class Job {
   @Column({
     name: 'job_type',
     type: 'enum',
-    enum: ['presencial', 'remoto', 'híbrido'],
-    default: 'presencial',
+    enum: ['on-site', 'remote', 'hybrid'],
+    default: 'on-site',
   })
-  jobType: 'presencial' | 'remoto' | 'híbrido';
+  jobType: 'on-site' | 'remote' | 'hybrid';
 
   @Column({ name: 'salary_range', nullable: true })
   salaryRange: string;

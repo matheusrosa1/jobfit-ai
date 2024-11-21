@@ -18,8 +18,8 @@ export class Seeders1731179936022 implements MigrationInterface {
     await queryRunner.query(`
         INSERT INTO "jobs" ("title", "description", "company", "location", "job_type", "salary_range", "requirements", "posted_at") 
         VALUES 
-          ('Software Engineer', 'Develop and maintain software systems.', 'Tech Corp', 'Remote', 'remoto', '6000-8000', 'JavaScript, TypeScript', CURRENT_TIMESTAMP),
-          ('Product Manager', 'Oversee product development and manage the product lifecycle.', 'Innovative Solutions', 'São Paulo', 'presencial', '9000-12000', 'Agile, Leadership', CURRENT_TIMESTAMP);
+          ('Software Engineer', 'Develop and maintain software systems.', 'Tech Corp', 'Remote', 'remote', '6000-8000', 'JavaScript, TypeScript', CURRENT_TIMESTAMP),
+          ('Product Manager', 'Oversee product development and manage the product lifecycle.', 'Innovative Solutions', 'São Paulo', 'on-site', '9000-12000', 'Agile, Leadership', CURRENT_TIMESTAMP);
       `);
 
     // Obtendo os IDs dos jobs inseridos

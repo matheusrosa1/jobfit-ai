@@ -23,8 +23,10 @@ export class CreateJobDto {
   @IsOptional()
   location: string;
 
-  @IsEnum(['presencial', 'remoto', 'híbrido'])
-  jobType: 'presencial' | 'remoto' | 'híbrido';
+  @IsEnum(['on-site', 'remote', 'hybrid'], {
+    message: 'The job type should be either on-site, remote, or hybrid.',
+  })
+  jobType: 'on-site' | 'remote' | 'hybrid';
 
   @IsString()
   @IsOptional()
