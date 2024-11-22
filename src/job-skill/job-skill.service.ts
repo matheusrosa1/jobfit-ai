@@ -32,7 +32,12 @@ export class JobSkillService {
     }
 
     // Criar a JobSkill
-    return await this.jobSkillRepository.create(createJobSkillDto);
+    const jobSkil = this.jobSkillRepository.create({
+      job,
+      skill,
+    });
+
+    return await this.jobSkillRepository.save(jobSkil);
   }
 
   async findAll() {
