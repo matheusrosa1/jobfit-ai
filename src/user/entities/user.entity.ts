@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Skill } from 'src/skill/entities/skill.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -20,4 +27,12 @@ export class User {
     default: 'candidate',
   })
   role: 'candidate' | 'recruiter';
+
+  @ManyToMany(() => Skill)
+  @JoinTable({
+    name: 'user_skills',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'skill_id', referencedColumnName: 'id' },
+  })
+  skills: Skill[];
 }

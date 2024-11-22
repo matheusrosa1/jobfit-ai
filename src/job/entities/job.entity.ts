@@ -1,8 +1,11 @@
+import { Skill } from 'src/skill/entities/skill.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity('jobs')
@@ -33,9 +36,17 @@ export class Job {
   @Column({ name: 'salary_range', nullable: true })
   salaryRange: string;
 
-  @Column({ nullable: true })
-  requirements: string;
-
   @CreateDateColumn({ name: 'posted_at' })
   postedAt: Date;
+
+  @ManyToMany(() => Skill)
+  @JoinTable({
+    name: 'job_skills',
+    joinColumn: { name: 'job_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'skill_id', referencedColumnName: 'id' },
+  })
+  skills: Skill[];
+
+  @Column('int', { nullable: true, name: 'experience_required' })
+  experienceRequired: number; // Tempo de experiência exigido (em anos)
 }

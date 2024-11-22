@@ -1,12 +1,6 @@
 import { Job } from 'src/job/entities/job.entity';
 import { Skill } from 'src/skill/entities/skill.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('job_skills')
 export class JobSkill {
@@ -20,7 +14,4 @@ export class JobSkill {
   @ManyToOne(() => Skill, (skill) => skill.jobs)
   @JoinColumn({ name: 'skill_id' })
   skill: Skill;
-
-  @Column('int', { nullable: true })
-  experienceRequired: number; // Tempo de experiência exigido (em anos)
 }
