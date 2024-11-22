@@ -1,8 +1,11 @@
 import {
+  IsArray,
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
+  IsUUID,
   MinLength,
 } from 'class-validator';
 
@@ -23,4 +26,9 @@ export class CreateUserDto {
     message: "The role should be 'candidate' or 'recruiter'.",
   })
   role?: 'candidate' | 'recruiter';
+
+  @IsOptional()
+  @IsArray({ message: 'Skills must be an array.' })
+  @IsUUID('4', { each: true, message: 'Each skill must be a valid UUID.' })
+  skills?: string[]; // Lista de skills associadas ao usuário, representadas como UUIDs.
 }

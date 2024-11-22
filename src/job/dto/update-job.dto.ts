@@ -27,10 +27,6 @@ export class UpdateJobDto {
   @IsOptional()
   salaryRange?: string;
 
-  @IsString()
-  @IsOptional()
-  requirements?: string;
-
   @IsDate()
   @IsOptional()
   postedAt?: Date;

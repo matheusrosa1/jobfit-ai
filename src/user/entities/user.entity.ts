@@ -34,5 +34,5 @@ export class User {
     joinColumn: { name: 'user_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'skill_id', referencedColumnName: 'id' },
   })
-  skills: Skill[];
+  skills?: Skill[];
 }

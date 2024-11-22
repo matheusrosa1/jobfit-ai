@@ -32,10 +32,6 @@ export class CreateJobDto {
   @IsOptional()
   salaryRange: string;
 
-  @IsString()
-  @IsOptional()
-  requirements: string;
-
   @IsDate()
   @IsOptional()
   postedAt?: Date;
