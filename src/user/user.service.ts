@@ -6,7 +6,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { Skill } from 'src/skill/entities/skill.entity';
-import { SkillService } from 'src/skill/skill.service';
 
 @Injectable()
 export class UserService {
@@ -14,7 +13,8 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
-    private readonly skillService: SkillService,
+    @InjectRepository(Skill)
+    private readonly skillRepository: Repository<Skill>,
   ) {}
 
   // Criar um novo usuário
