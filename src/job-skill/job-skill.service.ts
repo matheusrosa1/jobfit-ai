@@ -19,7 +19,7 @@ export class JobSkillService {
     const job = await this.jobService.findOne(createJobSkillDto.jobId);
     if (!job) {
       throw new NotFoundException(
-        `Job with ID ${createJobSkillDto.jobId} not found`,
+        `Job with ID ${createJobSkillDto.jobId} not found`, //
       );
     }
 
