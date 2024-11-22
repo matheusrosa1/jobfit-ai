@@ -7,6 +7,9 @@ import { UserModule } from './user/user.module';
 import { JobModule } from './job/job.module';
 import { ApplicationModule } from './application/application.module';
 import { AiService } from './ai/ai.service';
+import { SkillModule } from './skill/skill.module';
+import { UserSkillModule } from './user-skill/user-skill.module';
+import { JobSkillModule } from './job-skill/job-skill.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { AiService } from './ai/ai.service';
     UserModule,
     JobModule,
     ApplicationModule,
+    SkillModule,
+    UserSkillModule,
+    JobSkillModule,
   ],
   controllers: [AppController],
   providers: [AppService, AiService],
