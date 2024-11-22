@@ -1,12 +1,10 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 import {
-  IsArray,
   IsEmail,
   IsEnum,
   IsOptional,
   IsString,
-  IsUUID,
   Length,
   Matches,
 } from 'class-validator';
@@ -38,9 +36,4 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     message: "The role should be 'candidate' or 'recruiter'.",
   })
   role?: 'candidate' | 'recruiter';
-
-  @IsOptional()
-  @IsArray({ message: 'Skills must be an array.' })
-  @IsUUID('4', { each: true, message: 'Each skill must be a valid UUID.' })
-  skills?: string[]; // Lista de skills associadas ao usuário, representadas como UUIDs.
 }

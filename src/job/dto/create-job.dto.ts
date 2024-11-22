@@ -4,8 +4,6 @@ import {
   IsOptional,
   IsEnum,
   IsDate,
-  IsArray,
-  IsUUID,
   IsInt,
   Min,
 } from 'class-validator';
@@ -41,11 +39,6 @@ export class CreateJobDto {
   @IsOptional()
   @Type(() => Date)
   postedAt?: Date;
-
-  @IsArray({ message: 'Skills must be an array.' })
-  @IsUUID('4', { each: true, message: 'Each skill must be a valid UUID.' })
-  @IsOptional()
-  skills?: string[];
 
   @IsInt()
   @Min(0, { message: 'Experience required must be at least 0 years.' })
