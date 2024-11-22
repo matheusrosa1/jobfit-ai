@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateJobSkillDto } from './dto/create-job-skill.dto';
 import { UpdateJobSkillDto } from './dto/update-job-skill.dto';
-import { JobService } from '../job/job.service'; // Chamando o JobService
-import { SkillService } from '../skill/skill.service'; // Chamando o SkillService
+import { JobService } from '../job/job.service';
+import { SkillService } from '../skill/skill.service';
 import { Repository } from 'typeorm';
 import { JobSkill } from './entities/job-skill.entity';
 
@@ -39,15 +39,15 @@ export class JobSkillService {
     return await this.jobSkillRepository.find();
   }
 
-  async findOne(id: number) {
-    const jobSkill = await this.jobSkillRepository.findOne(id);
+  async findOne(id: string) {
+    const jobSkill = await this.jobSkillRepository.findOne({ where: { id } });
     if (!jobSkill) {
       throw new NotFoundException(`JobSkill with ID ${id} not found`);
     }
     return jobSkill;
   }
 
-  async update(id: number, updateJobSkillDto: UpdateJobSkillDto) {
+  async update(id: string, updateJobSkillDto: UpdateJobSkillDto) {
     // Verificar se o Job existe usando o JobService
     const job = await this.jobService.findOne(updateJobSkillDto.jobId);
     if (!job) {
@@ -65,7 +65,7 @@ export class JobSkillService {
     }
 
     // Atualizar a JobSkill
-    const jobSkill = await this.jobSkillRepository.findOne(id);
+    const jobSkill = await this.jobSkillRepository.findOne({ where: { id } });
     if (!jobSkill) {
       throw new NotFoundException(`JobSkill with ID ${id} not found`);
     }
@@ -73,13 +73,13 @@ export class JobSkillService {
     return await this.jobSkillRepository.update(id, updateJobSkillDto);
   }
 
-  async remove(id: number) {
-    const jobSkill = await this.jobSkillRepository.findOne(id);
+  async remove(id: string) {
+    const jobSkill = await this.jobSkillRepository.findOne({ where: { id } });
     if (!jobSkill) {
       throw new NotFoundException(`JobSkill with ID ${id} not found`);
     }
 
-    await this.jobSkillRepository.remove(id);
+    await this.jobSkillRepository.remove(jobSkill);
     return { message: `JobSkill with ID ${id} has been removed` };
   }
 }
