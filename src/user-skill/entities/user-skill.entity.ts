@@ -22,5 +22,6 @@ export class UserSkill {
   skill: Skill;
 
   @Column('int')
+  @Column({ name: 'years_of_experience' })
   yearsOfExperience: number; // Quantos anos de experiência o usuário tem em determinada skill
 }
