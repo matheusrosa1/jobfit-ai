@@ -11,7 +11,7 @@ import { UserSkillService } from './user-skill.service';
 import { CreateUserSkillDto } from './dto/create-user-skill.dto';
 import { UpdateUserSkillDto } from './dto/update-user-skill.dto';
 
-@Controller('user-skill')
+@Controller('user-skills')
 export class UserSkillController {
   constructor(private readonly userSkillService: UserSkillService) {}
 

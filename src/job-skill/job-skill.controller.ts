@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { JobSkillService } from './job-skill.service';
 import { CreateJobSkillDto } from './dto/create-job-skill.dto';
 
-@Controller('job-skill')
+@Controller('job-skills')
 export class JobSkillController {
   constructor(private readonly jobSkillService: JobSkillService) {}
 

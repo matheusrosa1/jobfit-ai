@@ -35,7 +35,7 @@ export class Seeders1732237647586 implements MigrationInterface {
 
     // Inserindo dados na tabela UserSkills
     await queryRunner.query(`
-          INSERT INTO "user_skills" ("user_id", "skill_id", "experience_years") 
+          INSERT INTO "user_skills" ("user_id", "skill_id", "years_of_experience") 
           VALUES 
             ('${userId1}', '${skill1}', 3),
             ('${userId1}', '${skill2}', 2),
