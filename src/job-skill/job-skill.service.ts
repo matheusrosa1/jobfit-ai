@@ -44,7 +44,7 @@ export class JobSkillService {
   }
 
   async findAll() {
-    return await this.jobSkillRepository.find();
+    return await this.jobSkillRepository.find({ relations: ['job', 'skill'] });
   }
 
   async findOne(id: string) {
