@@ -10,7 +10,7 @@ import { UpdateJobDto } from './dto/update-job.dto';
 export class JobService {
   constructor(
     @InjectRepository(Job)
-    private jobRepository: Repository<Job>,
+    private readonly jobRepository: Repository<Job>,
   ) {}
 
   create(createJobDto: CreateJobDto) {

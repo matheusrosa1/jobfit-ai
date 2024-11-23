@@ -5,10 +5,13 @@ import { JobService } from '../job/job.service';
 import { SkillService } from '../skill/skill.service';
 import { Repository } from 'typeorm';
 import { JobSkill } from './entities/job-skill.entity';
+import { plainToInstance } from 'class-transformer';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class JobSkillService {
   constructor(
+    @InjectRepository(JobSkill)
     private readonly jobSkillRepository: Repository<JobSkill>,
     private readonly jobService: JobService, // Usando o JobService
     private readonly skillService: SkillService, // Usando o SkillService
@@ -32,12 +35,12 @@ export class JobSkillService {
     }
 
     // Criar a JobSkill
-    const jobSkil = this.jobSkillRepository.create({
+    const jobSkill = this.jobSkillRepository.create({
       job,
       skill,
     });
 
-    return await this.jobSkillRepository.save(jobSkil);
+    return await this.jobSkillRepository.save(jobSkill);
   }
 
   async findAll() {
@@ -75,7 +78,11 @@ export class JobSkillService {
       throw new NotFoundException(`JobSkill with ID ${id} not found`);
     }
 
-    return await this.jobSkillRepository.update(id, updateJobSkillDto);
+    const updatedData = plainToInstance(JobSkill, updateJobSkillDto); // A função plainToInstance é usada para garantir que apenas as propriedades válidas de updateJobSkillDto sejam mapeadas para a entidade JobSkill.
+
+    await this.jobSkillRepository.update(id, updatedData);
+
+    return { message: 'Update successful' };
   }
 
   async remove(id: string) {
