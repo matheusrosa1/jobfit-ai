@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { JobModule } from './job/job.module';
 import { ApplicationModule } from './application/application.module';
-import { AiService } from './ai/ai.service';
+import { GeminiService } from './gemini/gemini.service';
 import { SkillModule } from './skill/skill.module';
 import { UserSkillModule } from './user-skill/user-skill.module';
 import { JobSkillModule } from './job-skill/job-skill.module';
@@ -35,6 +35,6 @@ import { JobSkillModule } from './job-skill/job-skill.module';
     JobSkillModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AiService],
+  providers: [AppService, GeminiService],
 })
 export class AppModule {}
