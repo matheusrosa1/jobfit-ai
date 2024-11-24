@@ -47,6 +47,19 @@ export class JobSkillService {
     return await this.jobSkillRepository.find({ relations: ['job', 'skill'] });
   }
 
+  async findSkillsByJobId(jobId: string) {
+    const jobWithSkills = await this.jobSkillRepository.find({
+      where: { job: { id: jobId } },
+      relations: ['skill'],
+    });
+
+    if (!jobWithSkills || jobWithSkills.length === 0) {
+      throw new NotFoundException(`No skills found for Job with ID ${jobId}`);
+    }
+
+    return jobWithSkills.map((jobSkill) => jobSkill.skill);
+  }
+
   async findOne(id: string) {
     const jobSkill = await this.jobSkillRepository.findOne({ where: { id } });
     if (!jobSkill) {

@@ -42,6 +42,19 @@ export class UserSkillService {
     return this.userSkillRepository.find({ relations: ['user', 'skill'] });
   }
 
+  async findAllByUserId(userId: string) {
+    const userSkills = await this.userSkillRepository.find({
+      where: { user: { id: userId } },
+      relations: ['user', 'skill'],
+    });
+
+    if (!userSkills || userSkills.length === 0) {
+      throw new NotFoundException(`No skills found for User with ID ${userId}`);
+    }
+
+    return userSkills.map((userSkill) => userSkill.skill);
+  }
+
   async findOne(id: string) {
     const userSkill = await this.userSkillRepository.findOne({
       where: { id },

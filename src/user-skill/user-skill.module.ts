@@ -10,5 +10,6 @@ import { SkillModule } from 'src/skill/skill.module';
   imports: [TypeOrmModule.forFeature([UserSkill]), UserModule, SkillModule],
   controllers: [UserSkillController],
   providers: [UserSkillService],
+  exports: [UserSkillService],
 })
 export class UserSkillModule {}
