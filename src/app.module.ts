@@ -10,6 +10,7 @@ import { GeminiService } from './gemini/gemini.service';
 import { SkillModule } from './skill/skill.module';
 import { UserSkillModule } from './user-skill/user-skill.module';
 import { JobSkillModule } from './job-skill/job-skill.module';
+import { AnalysisModule } from './analysis/analysis.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { JobSkillModule } from './job-skill/job-skill.module';
     SkillModule,
     UserSkillModule,
     JobSkillModule,
+    AnalysisModule,
   ],
   controllers: [AppController],
   providers: [AppService, GeminiService],
