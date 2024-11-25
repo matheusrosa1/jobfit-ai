@@ -6,11 +6,11 @@ export class Seeders1732237647586 implements MigrationInterface {
     await queryRunner.query(`
           INSERT INTO "skills" ("name") 
           VALUES 
-            ('JavaScript'),
-            ('TypeScript'),
-            ('React'),
-            ('Agile'),
-            ('Leadership');
+            ('Javascript'),
+            ('typescript'),
+            ('react'),
+            ('agile'),
+            ('leadership');
         `);
 
     // Obtendo IDs das skills inseridas
