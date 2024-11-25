@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Skill } from './entities/skill.entity';
 import { Repository } from 'typeorm';
+import { normalizeSkillName } from 'src/utils/normalizeSkillName';
 
 @Injectable()
 export class SkillService {
@@ -12,9 +17,38 @@ export class SkillService {
     private readonly skillRepository: Repository<Skill>,
   ) {}
 
-  create(createSkillDto: CreateSkillDto) {
-    const skill = this.skillRepository.create(createSkillDto);
-    return this.skillRepository.save(skill);
+  async findBySkillName(name: string): Promise<Skill> {
+    const normalizedSkillName = normalizeSkillName(name);
+
+    const skill = await this.skillRepository.findOne({
+      where: { name: normalizedSkillName },
+    });
+
+    if (!skill) {
+      throw new NotFoundException(`Skill with name ${name} not found`);
+    }
+
+    return skill;
+  }
+
+  async create(createSkillDto: CreateSkillDto): Promise<Skill> {
+    const normalizedSkillName = normalizeSkillName(createSkillDto.name);
+
+    try {
+      await this.findBySkillName(normalizedSkillName);
+
+      throw new ConflictException('Skill already exists');
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        const skill = this.skillRepository.create({
+          ...createSkillDto,
+          name: normalizedSkillName,
+        });
+
+        return await this.skillRepository.save(skill);
+      }
+      throw error;
+    }
   }
 
   findAll() {
