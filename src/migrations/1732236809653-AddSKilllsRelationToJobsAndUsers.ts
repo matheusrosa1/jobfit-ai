@@ -18,6 +18,18 @@ export class AddSkillsRelationToJobsAndUsers1731177524950
         "name" VARCHAR(100) NOT NULL,
         PRIMARY KEY ("id")
       );
+      CREATE OR REPLACE FUNCTION lowercase_name()
+      RETURNS TRIGGER AS $$
+      BEGIN
+        NEW.name := LOWER(NEW.name);
+        RETURN NEW;
+      END;
+      $$ LANGUAGE plpgsql;
+
+      CREATE TRIGGER set_name_lowercase
+      BEFORE INSERT OR UPDATE ON "skills"
+      FOR EACH ROW
+      EXECUTE FUNCTION lowercase_name();
     `);
 
     // Criar a tabela "job_skills" (relacionamento entre "jobs" e "skills")
