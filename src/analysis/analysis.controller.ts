@@ -15,7 +15,7 @@ export class AnalysisController {
 
       return {
         message: 'Analysis successfully generated',
-        analysisResult: analysis.geminiAnalysis,
+        analysisResult: analysis,
       };
     } catch (error) {
       throw new Error('Error generating analysis: ' + error.message);

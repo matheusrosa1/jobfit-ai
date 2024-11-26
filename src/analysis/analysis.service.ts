@@ -24,21 +24,24 @@ export class AnalysisService {
 
   async analyzeSkills(createAnalysisDto: CreateAnalysisDto) {
     const { userId, jobId } = createAnalysisDto;
-    const userSkills = await this.userSkillService.findAllByUserId(userId);
+    const userSkills = await this.userSkillService.findSkillsByUserId(userId);
     const jobSkills = await this.jobSkillService.findSkillsByJobId(jobId);
 
-    const prompt = generateSkillAnalysisPrompt(userSkills, jobSkills);
+    const prompt = await generateSkillAnalysisPrompt(userSkills, jobSkills);
 
     let geminiAnalysis;
     try {
       geminiAnalysis = await this.geminiService.generateResponse(prompt);
+      console.log('geminiAnalysis:', geminiAnalysis);
     } catch (error) {
       throw new Error(
         'Error generating analysis from Gemini AI' + error.message,
       );
     }
 
-    const user = await this.userService.findOne(userId);
+    return geminiAnalysis;
+
+    /*     const user = await this.userService.findOne(userId);
     const job = await this.jobService.findOne(jobId);
 
     const analysis = this.analysisRepository.create({
@@ -47,7 +50,7 @@ export class AnalysisService {
       geminiAnalysis,
     });
 
-    return await this.analysisRepository.save(analysis);
+    return await this.analysisRepository.save(analysis); */
   }
   findOne(id: number) {
     return `This action returns a #${id} analysis`;

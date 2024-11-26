@@ -6,6 +6,7 @@ import { UserSkill } from './entities/user-skill.entity';
 import { SkillService } from 'src/skill/skill.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
+import { Skill } from 'src/skill/entities/skill.entity';
 
 @Injectable()
 export class UserSkillService {
@@ -42,7 +43,7 @@ export class UserSkillService {
     return this.userSkillRepository.find({ relations: ['user', 'skill'] });
   }
 
-  async findAllByUserId(userId: string) {
+  async findSkillsByUserId(userId: string): Promise<Skill[]> {
     const userSkills = await this.userSkillRepository.find({
       where: { user: { id: userId } },
       relations: ['user', 'skill'],
@@ -51,7 +52,7 @@ export class UserSkillService {
     if (!userSkills || userSkills.length === 0) {
       throw new NotFoundException(`No skills found for User with ID ${userId}`);
     }
-
+    console.log('userSkills:', userSkills);
     return userSkills.map((userSkill) => userSkill.skill);
   }
 

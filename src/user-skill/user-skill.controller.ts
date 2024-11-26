@@ -30,6 +30,11 @@ export class UserSkillController {
     return this.userSkillService.findOne(id);
   }
 
+  @Get('user/:userId')
+  findAllByUserId(@Param('userId') userId: string) {
+    return this.userSkillService.findSkillsByUserId(userId);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,
