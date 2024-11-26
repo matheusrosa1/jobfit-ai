@@ -9,6 +9,7 @@ import { GeminiService } from 'src/gemini/gemini.service';
 import { CreateAnalysisDto } from './dto/create-analysis.dto';
 import { JobService } from 'src/job/job.service';
 import { generateSkillAnalysisPrompt } from 'src/utils/promptGenerator';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AnalysisService {
@@ -18,7 +19,7 @@ export class AnalysisService {
     private readonly userSkillService: UserSkillService,
     private readonly jobSkillService: JobSkillService,
     private readonly geminiService: GeminiService,
-    private readonly userService: UserSkillService,
+    private readonly userService: UserService,
     private readonly jobService: JobService,
   ) {}
 
@@ -38,19 +39,17 @@ export class AnalysisService {
         'Error generating analysis from Gemini AI' + error.message,
       );
     }
-
-    return geminiAnalysis;
-
-    /*     const user = await this.userService.findOne(userId);
+    const cleanAnalysis = geminiAnalysis.replace(/\n/g, ' ');
+    const user = await this.userService.findOne(userId);
     const job = await this.jobService.findOne(jobId);
 
     const analysis = this.analysisRepository.create({
       user,
       job,
-      geminiAnalysis,
+      geminiAnalysis: cleanAnalysis,
     });
 
-    return await this.analysisRepository.save(analysis); */
+    return await this.analysisRepository.save(analysis);
   }
   findOne(id: number) {
     return `This action returns a #${id} analysis`;

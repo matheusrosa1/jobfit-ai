@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Job } from 'src/job/entities/job.entity';
 
@@ -8,14 +14,20 @@ export class Analysis {
   id: string;
 
   @ManyToOne(() => User, { nullable: false })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @ManyToOne(() => Job, { nullable: false })
+  @JoinColumn({ name: 'job_id' })
   job: Job;
 
-  @Column('text')
+  @Column('text', { name: 'gemini_analysis' })
   geminiAnalysis: string; // Resultado gerado pela IA
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'created_at',
+  })
   createdAt: Date;
 }

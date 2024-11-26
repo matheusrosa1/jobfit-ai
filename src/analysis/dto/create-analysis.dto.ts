@@ -6,7 +6,4 @@ export class CreateAnalysisDto {
 
   @IsUUID() // Garantir que seja um UUID válido
   jobId: string;
-
-  /*   @IsString() // Garantir que o campo seja uma string
-  geminiAnalysis: string; */
 }
