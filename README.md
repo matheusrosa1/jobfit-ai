@@ -32,8 +32,6 @@ JobFit AI é uma aplicação back-end que integra inteligência artificial para 
 - [Funcionalidades](#funcionalidades)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Configuração e Execução](#configuração-e-execução)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Requisitos de Sistema](#requisitos-de-sistema)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 
@@ -86,7 +84,7 @@ O **JobFit AI** permite que:
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/jobfit-ai.git
+   git clone https://github.com/matheus-rosa1/jobfit-ai.git
    cd jobfit-ai
 
 
@@ -106,8 +104,8 @@ O **JobFit AI** permite que:
    docker compose up --build
 
 3. Acesse a API em:
-  ```bash
-    http://localhost:3000
+
+        http://localhost:3000
   
 ## License
 
