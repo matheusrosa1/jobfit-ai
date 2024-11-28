@@ -5,7 +5,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { JobModule } from './job/job.module';
-import { ApplicationModule } from './application/application.module';
 import { GeminiService } from './gemini/gemini.service';
 import { SkillModule } from './skill/skill.module';
 import { UserSkillModule } from './user-skill/user-skill.module';
@@ -30,7 +29,6 @@ import { AnalysisModule } from './analysis/analysis.module';
     }),
     UserModule,
     JobModule,
-    ApplicationModule,
     SkillModule,
     UserSkillModule,
     JobSkillModule,
