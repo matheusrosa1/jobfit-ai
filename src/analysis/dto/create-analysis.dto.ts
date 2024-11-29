@@ -1,4 +1,4 @@
-import { IsUUID } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 export class CreateAnalysisDto {
   @IsUUID() // Garantir que seja um UUID válido
@@ -6,4 +6,7 @@ export class CreateAnalysisDto {
 
   @IsUUID() // Garantir que seja um UUID válido
   jobId: string;
+
+  /*   @IsString() // Garantir que seja uma string
+  geminiAnalysis: string; */
 }
