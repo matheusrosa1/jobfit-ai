@@ -158,7 +158,7 @@ A API estará disponível em http://localhost:3000.
 
 ## Documentação
 
-Para acessar a documentação Swagger da API acesse:
+Para acessar a documentação **Swagger** da API acesse:
 
      http://localhost:3000/api
 
@@ -166,7 +166,7 @@ Para acessar a documentação Swagger da API acesse:
 
 Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 
-1. **Faça um fork do repositório**:
+1. Faça um fork do repositório:
 
    ```bash
    git clone https://github.com/seu-usuario/jobfit-ai.git
