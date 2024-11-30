@@ -168,8 +168,6 @@ Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 
 1. Faça um fork do repositório:
 
-   ```bash
-   git clone https://github.com/seu-usuario/jobfit-ai.git
 
 2. Crie uma branch para sua feature:
 
