@@ -51,6 +51,11 @@ export class AnalysisService {
 
     return await this.analysisRepository.save(analysis);
   }
+
+  findAll() {
+    return this.analysisRepository.find();
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} analysis`;
   }

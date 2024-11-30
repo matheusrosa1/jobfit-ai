@@ -23,9 +23,10 @@ export class AnalysisController {
   }
 
   @Get()
-  /*   findAll() {
+  findAll() {
     return this.analysisService.findAll();
-  } */
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.analysisService.findOne(+id);

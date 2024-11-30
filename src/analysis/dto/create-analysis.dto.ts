@@ -7,13 +7,13 @@ export class CreateAnalysisDto {
     description: 'The ID of the user who requested the analysis.',
     example: 'fcf7c8da-9262-4957-a416-0062d1c1a07e',
   })
-  @IsUUID() // Garantir que seja um UUID válido
+  @IsUUID()
   userId: string;
   @ApiProperty({
     description: 'The ID of the job to be analyzed.',
     example: 'a0911f7f-9968-4cc2-b8c8-19f5f4cd0909',
   })
-  @IsUUID() // Garantir que seja um UUID válido
+  @IsUUID()
   jobId: string;
 
   @ApiProperty({

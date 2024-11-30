@@ -22,7 +22,7 @@ export class Analysis {
   job: Job;
 
   @Column('text', { name: 'gemini_analysis' })
-  geminiAnalysis: string; // Resultado gerado pela IA
+  geminiAnalysis: string;
 
   @Column({
     type: 'timestamp',
