@@ -188,7 +188,7 @@ Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 
 5. Abra um Pull Request no repositório original.
 
-No título e na descrição do Pull Request, inclua detalhes sobre a mudança ou funcionalidade adicionada para facilitar a revisão.
+  No título e na descrição do Pull Request, inclua detalhes sobre a mudança ou funcionalidade adicionada para facilitar a revisão.
 
 
 ## Licença
