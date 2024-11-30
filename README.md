@@ -111,7 +111,8 @@ O **JobFit AI** permite que:
 ## Documentação
 
 Para acessar a documentação Swagger da API acesse:
-```http://localhost:3009/api```
+
+     http://localhost:3000/api
 
 ## License
 
