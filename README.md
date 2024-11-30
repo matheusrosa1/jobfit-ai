@@ -173,6 +173,6 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 Esse projeto foi desenvolvido por Matheus Rosa.
 
-Linkedin: (https://www.linkedin.com/in/matheus-rosa-dev/)
+Linkedin: https://www.linkedin.com/in/matheus-rosa-dev/
 
 E-mail para contato: matheusrosataxa@gmail.com
