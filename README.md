@@ -148,11 +148,8 @@ Se preferir não usar Docker, siga os passos abaixo para configurar o ambiente m
     PORT=
     GEMINI_API_KEY=
 
-5. Rode as migrações de banco de dados (caso necessário):
-    ```bash
-    npm run migration:run
 
-6. Inicie o servidor
+5. Inicie o servidor
     ```bash
     npm run start:dev
 
