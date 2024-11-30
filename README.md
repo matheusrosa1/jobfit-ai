@@ -162,9 +162,9 @@ Para acessar a documentação Swagger da API acesse:
 
      http://localhost:3000/api
 
-## License
+## Licença
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+[MIT](https://github.com/matheusrosa1/jobfit-ai?tab=MIT-1-ov-file).
 
 ## Autor
 
