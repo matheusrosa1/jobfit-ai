@@ -6,7 +6,6 @@ import { UserSkill } from './entities/user-skill.entity';
 import { SkillService } from 'src/skill/skill.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
-import { Skill } from 'src/skill/entities/skill.entity';
 
 @Injectable()
 export class UserSkillService {
@@ -43,7 +42,9 @@ export class UserSkillService {
     return this.userSkillRepository.find({ relations: ['user', 'skill'] });
   }
 
-  async findSkillsByUserId(userId: string): Promise<Skill[]> {
+  async findSkillsByUserId(
+    userId: string,
+  ): Promise<{ name: string; yearsOfExperience: number }[]> {
     const userSkills = await this.userSkillRepository.find({
       where: { user: { id: userId } },
       relations: ['user', 'skill'],
@@ -52,8 +53,11 @@ export class UserSkillService {
     if (!userSkills || userSkills.length === 0) {
       throw new NotFoundException(`No skills found for User with ID ${userId}`);
     }
-    console.log('userSkills:', userSkills);
-    return userSkills.map((userSkill) => userSkill.skill);
+
+    return userSkills.map((userSkill) => ({
+      name: userSkill.skill.name,
+      yearsOfExperience: userSkill.yearsOfExperience,
+    }));
   }
 
   async findOne(id: string) {
@@ -71,9 +75,11 @@ export class UserSkillService {
 
   async update(id: string, updateUserSkillDto: UpdateUserSkillDto) {
     const userSkill = await this.userSkillRepository.findOne({ where: { id } });
+
     if (!userSkill) {
       throw new NotFoundException(`UserSkill with ID ${id} not found`);
     }
+
     if (updateUserSkillDto.userId) {
       const user = await this.userService.findOne(updateUserSkillDto.userId);
       if (!user) {
@@ -83,6 +89,7 @@ export class UserSkillService {
       }
       userSkill.user = user;
     }
+
     if (updateUserSkillDto.skillId) {
       const skill = await this.skillService.findOne(updateUserSkillDto.skillId);
       if (!skill) {
@@ -92,9 +99,11 @@ export class UserSkillService {
       }
       userSkill.skill = skill;
     }
+
     if (updateUserSkillDto.yearsOfExperience !== undefined) {
       userSkill.yearsOfExperience = updateUserSkillDto.yearsOfExperience;
     }
+
     return this.userSkillRepository.save(userSkill);
   }
 

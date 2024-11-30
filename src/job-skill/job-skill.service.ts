@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { JobSkill } from './entities/job-skill.entity';
 import { plainToInstance } from 'class-transformer';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Skill } from 'src/skill/entities/skill.entity';
 
 @Injectable()
 export class JobSkillService {
@@ -48,17 +47,22 @@ export class JobSkillService {
     return await this.jobSkillRepository.find({ relations: ['job', 'skill'] });
   }
 
-  async findSkillsByJobId(jobId: string): Promise<Skill[]> {
-    const jobWithSkills = await this.jobSkillRepository.find({
+  async findSkillsByJobId(
+    jobId: string,
+  ): Promise<{ name: string; experienceRequired: number }[]> {
+    const jobSkills = await this.jobSkillRepository.find({
       where: { job: { id: jobId } },
-      relations: ['skill'],
+      relations: ['job', 'skill'],
     });
 
-    if (!jobWithSkills || jobWithSkills.length === 0) {
+    if (!jobSkills || jobSkills.length === 0) {
       throw new NotFoundException(`No skills found for Job with ID ${jobId}`);
     }
 
-    return jobWithSkills.map((jobSkill) => jobSkill.skill);
+    return jobSkills.map((jobSkill) => ({
+      name: jobSkill.skill.name,
+      experienceRequired: jobSkill.experienceRequired,
+    }));
   }
 
   async findOne(id: string) {
