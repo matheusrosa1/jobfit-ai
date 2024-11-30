@@ -36,6 +36,7 @@ JobFit AI é uma aplicação back-end que integra inteligência artificial para 
 - [Documentação](#documentação)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
+- [Autor](#autor)
 
 ---
 
@@ -118,7 +119,7 @@ O **JobFit AI** permite que:
 
 Esse comando vai criar e rodar o contêiner com as dependências do projeto configuradas. Após a execução, a API estará disponível em http://localhost:3000.
  
-### 2. Instalação Manual
+#### 2. Instalação Manual
 
 Se preferir não usar Docker, siga os passos abaixo para configurar o ambiente manualmente:
 
@@ -167,3 +168,9 @@ Para acessar a documentação Swagger da API acesse:
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+## Autor
+
+Esse projeto foi desenvolvido por Matheus Rosa.
+Linkedin: (https://www.linkedin.com/in/matheus-rosa-dev/)
+E-mail para contato: matheusrosataxa@gmail.com
