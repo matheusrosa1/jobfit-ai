@@ -28,7 +28,7 @@ export class AnalysisService {
     const userSkills = await this.userSkillService.findSkillsByUserId(userId);
     const jobSkills = await this.jobSkillService.findSkillsByJobId(jobId);
 
-    const prompt = await generateSkillAnalysisPrompt(userSkills, jobSkills);
+    const prompt = generateSkillAnalysisPrompt(userSkills, jobSkills);
 
     let geminiAnalysis;
     try {
