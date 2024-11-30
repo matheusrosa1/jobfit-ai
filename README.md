@@ -31,6 +31,7 @@ JobFit AI é uma aplicação back-end que integra inteligência artificial para 
 - [Visão Geral](#visão-geral)
 - [Funcionalidades](#funcionalidades)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Configuração da API Key](#configuração-da-api-key)
 - [Configuração e Execução](#configuração-e-execução)
 - [Documentação](#documentação)
 - [Contribuição](#contribuição)
@@ -81,14 +82,8 @@ O **JobFit AI** permite que:
 3. **PostgreSQL**: versão 12 ou superior
 4. **Docker** (opcional, para ambiente de desenvolvimento)
 
-### Passos para Executar
+#### Configuração da API Key
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/matheus-rosa1/jobfit-ai.git
-   cd jobfit-ai
-
-2. Configuração da API Key
 - **Por que é necessário?**  
   O projeto utiliza a **Gemini AI** para análise de habilidades. Para que as requisições à API sejam processadas, é necessário obter uma API Key válida.
 
@@ -97,6 +92,15 @@ O **JobFit AI** permite que:
   2. Crie uma conta ou faça login.
   3. Navegue até **API Keys** e clique em **Generate New Key**.
   4. Copie a chave gerada e cole no arquivo `.env` na variável `GEMINI_API_KEY`.
+
+### Passos para Executar
+
+#### 1. Usando Docker (Recomendado)
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/matheus-rosa1/jobfit-ai.git
+   cd jobfit-ai
 
 2. Configure o arquivo .env na raiz do projeto com as seguintes variáveis:
    ```bash
@@ -108,14 +112,51 @@ O **JobFit AI** permite que:
     PORT=
     GEMINI_API_KEY=
 
+3. Rode o comando:
+
+        docker-compose up --build
+
+Esse comando vai criar e rodar o contêiner com as dependências do projeto configuradas. Após a execução, a API estará disponível em http://localhost:3000.
+ 
+### 2. Instalação Manual
+
+Se preferir não usar Docker, siga os passos abaixo para configurar o ambiente manualmente:
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/matheus-rosa1/jobfit-ai.git
+   cd jobfit-ai
 
 2. Instale as depedências (o servidor é iniciado automaticamente)
    ```bash
-   docker compose up --build
+   npm install
 
-3. Acesse a API em:
+3. Configure o banco de dados (PostgreSQL)
 
-        http://localhost:3000
+- Siga as instruções completas de configuração do PostgreSQL no [guia de instalação do PostgreSQL](https://www.postgresql.org/download/).
+- Crie um banco de dados `jobfit_ai` e um usuário com permissões.
+
+
+4. Configure o arquivo .env na raiz do projeto com as seguintes variáveis:
+   ```bash
+    DB_USER=
+    DB_PASSWORD=
+    DB_HOST=
+    DB_PORT=5432
+    DB_NAME=
+    PORT=
+    GEMINI_API_KEY=
+
+5. Rode as migrações de banco de dados (caso necessário):
+    ```bash
+    npm run migration:run
+
+6. Inicie o servidor
+    ```bash
+    npm run start:dev
+
+A API estará disponível em http://localhost:3000.
+
 
 ## Documentação
 
