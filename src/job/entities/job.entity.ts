@@ -46,7 +46,4 @@ export class Job {
     inverseJoinColumn: { name: 'skill_id', referencedColumnName: 'id' },
   })
   skills: Skill[];
-
-  @Column('int', { nullable: true, name: 'experience_required' })
-  experienceRequired: number; // Tempo de experiência exigido (em anos)
 }

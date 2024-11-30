@@ -57,13 +57,13 @@ export class Seeders1732237647586 implements MigrationInterface {
 
     // Inserindo dados na tabela JobSkills
     await queryRunner.query(`
-          INSERT INTO "job_skills" ("job_id", "skill_id") 
+          INSERT INTO "job_skills" ("job_id", "skill_id", "experience_required") 
           VALUES 
-            ('${jobId1}', '${skill1}'),
-            ('${jobId1}', '${skill2}'),
-            ('${jobId1}', '${skill3}'),
-            ('${jobId2}', '${skill4}'),
-            ('${jobId2}', '${skill5}');
+            ('${jobId1}', '${skill1}', 3),
+            ('${jobId1}', '${skill2}', 2),
+            ('${jobId1}', '${skill3}', 1),
+            ('${jobId2}', '${skill4}', 5),
+            ('${jobId2}', '${skill5}', 4);
         `);
 
     // Inserindo dados na tabela Applications

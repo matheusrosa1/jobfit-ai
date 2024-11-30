@@ -38,6 +38,7 @@ export class AddSkillsRelationToJobsAndUsers1731177524950
         "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
         "job_id" uuid NOT NULL,
         "skill_id" uuid NOT NULL,
+        "experience_required" INT NOT NULL,
         PRIMARY KEY ("id"),
         CONSTRAINT "FK_job_skills_jobs" FOREIGN KEY ("job_id") REFERENCES "jobs"("id") ON DELETE CASCADE,
         CONSTRAINT "FK_job_skills_skills" FOREIGN KEY ("skill_id") REFERENCES "skills"("id") ON DELETE CASCADE

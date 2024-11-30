@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt, Min } from 'class-validator';
 
 export class CreateJobSkillDto {
   @ApiProperty({
@@ -17,4 +17,17 @@ export class CreateJobSkillDto {
   @IsString()
   @IsNotEmpty()
   skillId: string;
+
+  @ApiProperty({
+    description: 'The required experience in years.',
+    example: 5,
+  })
+  @IsInt({
+    message: 'The experience required should be an integer.',
+  })
+  @Min(0, {
+    message:
+      'The experience required should be an integer, with min value equal to 0.',
+  })
+  experienceRequired: number; // Tempo de experiência exigido (em anos)
 }
