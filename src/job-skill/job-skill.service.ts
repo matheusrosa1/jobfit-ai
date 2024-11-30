@@ -18,7 +18,6 @@ export class JobSkillService {
   ) {}
 
   async create(createJobSkillDto: CreateJobSkillDto) {
-    // Verificar se o Job existe usando o JobService
     const job = await this.jobService.findOne(createJobSkillDto.jobId);
     if (!job) {
       throw new NotFoundException(
@@ -26,7 +25,6 @@ export class JobSkillService {
       );
     }
 
-    // Verificar se a Skill existe usando o SkillService
     const skill = await this.skillService.findOne(createJobSkillDto.skillId);
     if (!skill) {
       throw new NotFoundException(
@@ -34,7 +32,6 @@ export class JobSkillService {
       );
     }
 
-    // Criar a JobSkill
     const jobSkill = this.jobSkillRepository.create({
       job,
       skill,
@@ -74,7 +71,6 @@ export class JobSkillService {
   }
 
   async update(id: string, updateJobSkillDto: UpdateJobSkillDto) {
-    // Verificar se o Job existe usando o JobService
     const job = await this.jobService.findOne(updateJobSkillDto.jobId);
     if (!job) {
       throw new NotFoundException(
@@ -82,7 +78,6 @@ export class JobSkillService {
       );
     }
 
-    // Verificar se a Skill existe usando o SkillService
     const skill = await this.skillService.findOne(updateJobSkillDto.skillId);
     if (!skill) {
       throw new NotFoundException(
@@ -90,7 +85,6 @@ export class JobSkillService {
       );
     }
 
-    // Atualizar a JobSkill
     const jobSkill = await this.jobSkillRepository.findOne({ where: { id } });
     if (!jobSkill) {
       throw new NotFoundException(`JobSkill with ID ${id} not found`);

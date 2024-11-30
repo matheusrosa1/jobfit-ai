@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  NotFoundException,
+} from '@nestjs/common';
 import { AnalysisService } from './analysis.service';
 import { CreateAnalysisDto } from './dto/create-analysis.dto';
 /* import { UpdateAnalysisDto } from './dto/update-analysis.dto'; */
@@ -18,6 +26,10 @@ export class AnalysisController {
         analysisResult: analysis.geminiAnalysis,
       };
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+
       throw new Error('Error generating analysis: ' + error.message);
     }
   }

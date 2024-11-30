@@ -70,7 +70,7 @@ export class SkillService {
       throw new NotFoundException(`Skill with ID ${id} not found`);
     }
 
-    return this.findOne(id); // Retorna a entidade atualizada, se necessário
+    return this.findOne(id);
   }
 
   async remove(id: string) {
