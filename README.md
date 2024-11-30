@@ -53,7 +53,8 @@ O **JobFit AI** permite que:
 
 ## Status do Projeto
 
-Este projeto está em **constante desenvolvimento**. Embora a maior parte das funcionalidades principais já esteja implementada, estou continuamente trabalhando para adicionar novas features, corrigir bugs e melhorar o desempenho. Contribuições da comunidade são muito bem-vindas!
+O projeto **JobFit-AI** encontra-se em constante desenvolvimento, com novas funcionalidades sendo implementadas regularmente. Atualmente, a funcionalidade de análise de habilidades com integração de inteligência artificial está totalmente funcional, permitindo avaliar as compatibilidades entre candidatos e vagas com base nos dados fornecidos.
+
 
 ---
 
@@ -167,9 +168,9 @@ A API estará disponível em http://localhost:3000.
 
 ## Documentação
 
-Para acessar a documentação **Swagger** da API acesse:
+Para acessar a documentação **Swagger** da API e verificar os endpoints disponíveis, acesse:
 
-     http://localhost:3000/api
+    http://localhost:3000/api
 
 ---
 
