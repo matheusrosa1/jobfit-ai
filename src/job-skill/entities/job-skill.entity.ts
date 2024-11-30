@@ -22,5 +22,5 @@ export class JobSkill {
   skill: Skill;
 
   @Column('int', { nullable: false, name: 'experience_required', default: 0 })
-  experienceRequired: number; // Tempo de experiência exigido (em anos)
+  experienceRequired: number;
 }

@@ -29,5 +29,5 @@ export class CreateJobSkillDto {
     message:
       'The experience required should be an integer, with min value equal to 0.',
   })
-  experienceRequired: number; // Tempo de experiência exigido (em anos)
+  experienceRequired: number;
 }

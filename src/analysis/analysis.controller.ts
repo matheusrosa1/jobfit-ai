@@ -41,17 +41,9 @@ export class AnalysisController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.analysisService.findOne(+id);
+    return this.analysisService.findOne(id);
   }
 
-  /*   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateAnalysisDto: UpdateAnalysisDto,
-  ) {
-    return this.analysisService.update(+id, updateAnalysisDto);
-  }
- */
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.analysisService.remove(+id);

@@ -24,5 +24,5 @@ export class CreateUserSkillDto {
   })
   @IsInt()
   @Min(0)
-  yearsOfExperience: number; // Anos de experiência do usuário na habilidade
+  yearsOfExperience: number;
 }

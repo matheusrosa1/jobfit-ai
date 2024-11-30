@@ -13,5 +13,5 @@ export class UpdateUserSkillDto extends PartialType(CreateUserSkillDto) {
 
   @IsInt()
   @Min(0)
-  yearsOfExperience: number; // Anos de experiência do usuário na habilidade
+  yearsOfExperience: number;
 }

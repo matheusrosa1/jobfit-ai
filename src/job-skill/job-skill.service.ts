@@ -90,7 +90,7 @@ export class JobSkillService {
       throw new NotFoundException(`JobSkill with ID ${id} not found`);
     }
 
-    const updatedData = plainToInstance(JobSkill, updateJobSkillDto); // A função plainToInstance é usada para garantir que apenas as propriedades válidas de updateJobSkillDto sejam mapeadas para a entidade JobSkill.
+    const updatedData = plainToInstance(JobSkill, updateJobSkillDto);
 
     await this.jobSkillRepository.update(id, updatedData);
 

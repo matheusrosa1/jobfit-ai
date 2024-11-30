@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 /* import { UpdateAnalysisDto } from './dto/update-analysis.dto'; */
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -56,13 +56,13 @@ export class AnalysisService {
     return this.analysisRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} analysis`;
+  findOne(id: string) {
+    const analysis = this.analysisRepository.findOne({ where: { id } });
+    if (!analysis) {
+      throw new NotFoundException(`Analysis with id ${id} not found`);
+    }
+    return analysis;
   }
-
-  /*   update(id: number, updateAnalysisDto: UpdateAnalysisDto) {
-    return `This action updates a #${id} analysis`;
-  } */
 
   remove(id: number) {
     return `This action removes a #${id} analysis`;
