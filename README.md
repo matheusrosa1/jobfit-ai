@@ -32,6 +32,7 @@ JobFit AI é uma aplicação back-end que integra inteligência artificial para 
 - [Funcionalidades](#funcionalidades)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Configuração e Execução](#configuração-e-execução)
+- [Documentação](#documentação)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 
@@ -67,7 +68,7 @@ O **JobFit AI** permite que:
 - **Linguagem**: TypeScript
 - **Integração de IA**: API Gemini
 - **Gerenciamento de Dependências**: npm
-- **Ferramentas de Teste**: Jest
+- **Ferramentas de Teste**: Jest (em desenvolvimento)
 
 ---
 
@@ -106,7 +107,12 @@ O **JobFit AI** permite que:
 3. Acesse a API em:
 
         http://localhost:3000
-  
+
+## Documentação
+
+Para acessar a documentação Swagger da API acesse:
+```http://localhost:3009/api```
+
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
