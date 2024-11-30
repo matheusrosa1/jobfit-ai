@@ -162,9 +162,38 @@ Para acessar a documentação Swagger da API acesse:
 
      http://localhost:3000/api
 
+## Contribuição
+
+Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
+
+1. **Faça um fork do repositório**:
+
+   ```bash
+   git clone https://github.com/seu-usuario/jobfit-ai.git
+
+2. Crie uma branch para sua feature:
+
+    ```bash
+    git checkout -b minha-feature
+
+3. Faça as alterações e comite
+
+   ```bash
+   git commit -m "Adiciona minha nova feature"
+
+4. Envie as alterações
+
+   ```bash
+   git push origin minha-feature
+
+5. Abra um Pull Request no repositório original.
+
+No título e na descrição do Pull Request, inclua detalhes sobre a mudança ou funcionalidade adicionada para facilitar a revisão.
+
+
 ## Licença
 
-[MIT](https://github.com/matheusrosa1/jobfit-ai?tab=MIT-1-ov-file).
+Esse projeto possui Licença [MIT](https://github.com/matheusrosa1/jobfit-ai?tab=MIT-1-ov-file).
 
 ## Autor
 
