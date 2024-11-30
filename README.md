@@ -100,7 +100,7 @@ O **JobFit AI** permite que:
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/matheus-rosa1/jobfit-ai.git
+   git clone git@github.com:matheusrosa1/jobfit-ai.git
    cd jobfit-ai
 
 2. Configure o arquivo .env na raiz do projeto com as seguintes variáveis:
@@ -125,7 +125,7 @@ Se preferir não usar Docker, siga os passos abaixo para configurar o ambiente m
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/matheus-rosa1/jobfit-ai.git
+   git clone git@github.com:matheusrosa1/jobfit-ai.git
    cd jobfit-ai
 
 2. Instale as depedências (o servidor é iniciado automaticamente)
