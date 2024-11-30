@@ -88,9 +88,9 @@ O **JobFit AI** permite que:
   O projeto utiliza a **Gemini AI** para análise de habilidades. Para que as requisições à API sejam processadas, é necessário obter uma API Key válida.
 
 - **Como gerar sua API Key?**  
-  1. Acesse [Gemini AI Developer Portal](https://gemini.ai/developers).
-  2. Crie uma conta ou faça login.
-  3. Navegue até **API Keys** e clique em **Generate New Key**.
+  1. Acesse [Google AI Studio](https://aistudio.google.com/app/apikey?hl=pt-br).
+  2. Crie uma conta Google ou faça login.
+  3. Clique em **Generate New Key**.
   4. Copie a chave gerada e cole no arquivo `.env` na variável `GEMINI_API_KEY`.
 
 ### Passos para Executar
