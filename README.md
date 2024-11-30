@@ -29,9 +29,8 @@ JobFit AI é uma aplicação back-end que integra inteligência artificial para 
 ## Índice
 
 - [Visão Geral](#visão-geral)
-- 
-- [Funcionalidades](#funcionalidades)
 - [Status do Projeto](#status-do-projeto)
+- [Funcionalidades](#funcionalidades)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Configuração da API Key](#configuração-da-api-key)
 - [Configuração e Execução](#configuração-e-execução)
