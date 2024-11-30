@@ -166,7 +166,7 @@ Para acessar a documentação **Swagger** da API acesse:
 
 Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 
-1. Faça um fork do repositório:
+1. Faça um fork do repositório
 
 
 2. Crie uma branch para sua feature:
