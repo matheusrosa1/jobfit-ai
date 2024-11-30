@@ -29,7 +29,9 @@ JobFit AI é uma aplicação back-end que integra inteligência artificial para 
 ## Índice
 
 - [Visão Geral](#visão-geral)
+- 
 - [Funcionalidades](#funcionalidades)
+- [Status do Projeto](#status-do-projeto)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Configuração da API Key](#configuração-da-api-key)
 - [Configuração e Execução](#configuração-e-execução)
@@ -46,6 +48,12 @@ O **JobFit AI** permite que:
 - Usuários cadastrem suas habilidades.
 - Empresas registrem vagas de emprego e os requisitos de habilidades para cada vaga.
 - A análise de compatibilidade entre candidatos e vagas seja realizada utilizando IA (via API Gemini).
+
+---
+
+## Status do Projeto
+
+Este projeto está em **constante desenvolvimento**. Embora a maior parte das funcionalidades principais já esteja implementada, estou continuamente trabalhando para adicionar novas features, corrigir bugs e melhorar o desempenho. Contribuições da comunidade são muito bem-vindas!
 
 ---
 
@@ -155,12 +163,15 @@ Se preferir não usar Docker, siga os passos abaixo para configurar o ambiente m
 
 A API estará disponível em http://localhost:3000.
 
+---
 
 ## Documentação
 
 Para acessar a documentação **Swagger** da API acesse:
 
      http://localhost:3000/api
+
+---
 
 ## Contribuição
 
@@ -188,10 +199,13 @@ Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 
   No título e na descrição do Pull Request, inclua detalhes sobre a mudança ou funcionalidade adicionada para facilitar a revisão.
 
+---
 
 ## Licença
 
 Esse projeto possui Licença [MIT](https://github.com/matheusrosa1/jobfit-ai?tab=MIT-1-ov-file).
+
+---
 
 ## Autor
 
