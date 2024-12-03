@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateJobSkillDto } from './dto/create-job-skill.dto';
 import { UpdateJobSkillDto } from './dto/update-job-skill.dto';
 import { JobService } from '../job/job.service';
@@ -17,7 +21,19 @@ export class JobSkillService {
     private readonly skillService: SkillService, // Usando o SkillService
   ) {}
 
+  async checkJobSkillExists(jobId: string, skillId: string) {
+    const existingJobSkill = await this.jobSkillRepository.findOne({
+      where: {
+        job: { id: jobId },
+        skill: { id: skillId },
+      },
+    });
+
+    return existingJobSkill !== null;
+  }
+
   async create(createJobSkillDto: CreateJobSkillDto) {
+    const { jobId, skillId } = createJobSkillDto;
     const job = await this.jobService.findOne(createJobSkillDto.jobId);
     if (!job) {
       throw new NotFoundException(
@@ -35,7 +51,15 @@ export class JobSkillService {
     const jobSkill = this.jobSkillRepository.create({
       job,
       skill,
+      experienceRequired: createJobSkillDto.experienceRequired,
     });
+
+    const jobSkillExists = await this.checkJobSkillExists(jobId, skillId);
+    if (jobSkillExists) {
+      throw new BadRequestException(
+        `Job with ID ${jobId} already has skill with ID ${skillId}`,
+      );
+    }
 
     return await this.jobSkillRepository.save(jobSkill);
   }
