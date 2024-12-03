@@ -33,26 +33,7 @@ export class JobSkillService {
   }
 
   async create(createJobSkillDto: CreateJobSkillDto) {
-    const { jobId, skillId } = createJobSkillDto;
-    const job = await this.jobService.findOne(createJobSkillDto.jobId);
-    if (!job) {
-      throw new NotFoundException(
-        `Job with ID ${createJobSkillDto.jobId} not found`, //
-      );
-    }
-
-    const skill = await this.skillService.findOne(createJobSkillDto.skillId);
-    if (!skill) {
-      throw new NotFoundException(
-        `Skill with ID ${createJobSkillDto.skillId} not found`,
-      );
-    }
-
-    const jobSkill = this.jobSkillRepository.create({
-      job,
-      skill,
-      experienceRequired: createJobSkillDto.experienceRequired,
-    });
+    const { jobId, skillId, experienceRequired } = createJobSkillDto;
 
     const jobSkillExists = await this.checkJobSkillExists(jobId, skillId);
     if (jobSkillExists) {
@@ -60,6 +41,22 @@ export class JobSkillService {
         `Job with ID ${jobId} already has skill with ID ${skillId}`,
       );
     }
+
+    const job = await this.jobService.findOne(jobId);
+    if (!job) {
+      throw new NotFoundException(`Job with ID ${jobId} not found`);
+    }
+
+    const skill = await this.skillService.findOne(skillId);
+    if (!skill) {
+      throw new NotFoundException(`Skill with ID ${skillId} not found`);
+    }
+
+    const jobSkill = this.jobSkillRepository.create({
+      job,
+      skill,
+      experienceRequired,
+    });
 
     return await this.jobSkillRepository.save(jobSkill);
   }
