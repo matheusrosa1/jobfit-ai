@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UseGuards,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { JobSkillService } from './job-skill.service';
 import { CreateJobSkillDto } from './dto/create-job-skill.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { UpdateJobSkillDto } from './dto/update-job-skill.dto';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('job-skills')
@@ -23,13 +33,16 @@ export class JobSkillController {
     return this.jobSkillService.findOne(id);
   }
 
-  /*   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateJobSkillDto: UpdateJobSkillDto) {
-    return this.jobSkillService.update(+id, updateJobSkillDto);
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateJobSkillDto: UpdateJobSkillDto,
+  ) {
+    return this.jobSkillService.update(id, updateJobSkillDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.jobSkillService.remove(+id);
-  } */
+    return this.jobSkillService.remove(id);
+  }
 }
