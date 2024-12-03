@@ -6,11 +6,14 @@ import {
   Param,
   Delete,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { AnalysisService } from './analysis.service';
 import { CreateAnalysisDto } from './dto/create-analysis.dto';
+import { AuthGuard } from '@nestjs/passport';
 /* import { UpdateAnalysisDto } from './dto/update-analysis.dto'; */
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('analysis')
 export class AnalysisController {
   constructor(private readonly analysisService: AnalysisService) {}

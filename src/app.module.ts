@@ -9,6 +9,7 @@ import { SkillModule } from './skill/skill.module';
 import { UserSkillModule } from './user-skill/user-skill.module';
 import { JobSkillModule } from './job-skill/job-skill.module';
 import { AnalysisModule } from './analysis/analysis.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AnalysisModule } from './analysis/analysis.module';
     UserSkillModule,
     JobSkillModule,
     AnalysisModule,
+    AuthModule,
   ],
   providers: [GeminiService],
 })
