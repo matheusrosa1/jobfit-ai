@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { JobSkillService } from './job-skill.service';
 import { CreateJobSkillDto } from './dto/create-job-skill.dto';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('job-skills')
 export class JobSkillController {
   constructor(private readonly jobSkillService: JobSkillService) {}
