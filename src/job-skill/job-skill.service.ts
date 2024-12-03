@@ -17,8 +17,8 @@ export class JobSkillService {
   constructor(
     @InjectRepository(JobSkill)
     private readonly jobSkillRepository: Repository<JobSkill>,
-    private readonly jobService: JobService, // Usando o JobService
-    private readonly skillService: SkillService, // Usando o SkillService
+    private readonly jobService: JobService,
+    private readonly skillService: SkillService,
   ) {}
 
   async checkJobSkillExists(jobId: string, skillId: string) {

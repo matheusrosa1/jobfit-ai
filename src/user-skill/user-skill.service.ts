@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserSkillDto } from './dto/create-user-skill.dto';
 import { UpdateUserSkillDto } from './dto/update-user-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,6 +20,17 @@ export class UserSkillService {
     private userService: UserService,
   ) {}
 
+  async checkUserSkillExists(userId: string, skillId: string) {
+    const existingUserSkill = await this.userSkillRepository.findOne({
+      where: {
+        user: { id: userId },
+        skill: { id: skillId },
+      },
+    });
+
+    return existingUserSkill !== null;
+  }
+
   async create(createUserSkillDto: CreateUserSkillDto) {
     const { userId, skillId, yearsOfExperience } = createUserSkillDto;
 
@@ -27,6 +42,13 @@ export class UserSkillService {
     const skill = await this.skillService.findOne(skillId);
     if (!skill) {
       throw new NotFoundException(`Skill with ID ${skillId} not found`);
+    }
+
+    const userSkillExists = await this.checkUserSkillExists(userId, skillId);
+    if (userSkillExists) {
+      throw new BadRequestException(
+        `UserSkill with User ID ${userId} and Skill ID ${skillId} already exists`,
+      );
     }
 
     const userSkill = this.userSkillRepository.create({
