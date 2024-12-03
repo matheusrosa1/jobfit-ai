@@ -33,7 +33,6 @@ export class AnalysisService {
     let geminiAnalysis;
     try {
       geminiAnalysis = await this.geminiService.generateResponse(prompt);
-      console.log('geminiAnalysis:', geminiAnalysis);
     } catch (error) {
       throw new Error(
         'Error generating analysis from Gemini AI' + error.message,
