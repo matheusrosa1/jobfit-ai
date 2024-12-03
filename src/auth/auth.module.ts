@@ -12,7 +12,7 @@ import { AuthController } from './auth.controller';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'defaultSecretKey',
-      signOptions: { expiresIn: '168h' },
+      signOptions: { expiresIn: '8760h' }, // 1 ano somente para desenvolvimento
     }),
   ],
   providers: [AuthService, JwtStrategy],
