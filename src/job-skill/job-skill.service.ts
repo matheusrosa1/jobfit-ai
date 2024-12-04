@@ -92,30 +92,33 @@ export class JobSkillService {
   }
 
   async update(id: string, updateJobSkillDto: UpdateJobSkillDto) {
-    const job = await this.jobService.findOne(updateJobSkillDto.jobId);
-    if (!job) {
-      throw new NotFoundException(
-        `Job with ID ${updateJobSkillDto.jobId} not found`,
-      );
-    }
-
-    const skill = await this.skillService.findOne(updateJobSkillDto.skillId);
-    if (!skill) {
-      throw new NotFoundException(
-        `Skill with ID ${updateJobSkillDto.skillId} not found`,
-      );
-    }
-
     const jobSkill = await this.jobSkillRepository.findOne({ where: { id } });
     if (!jobSkill) {
       throw new NotFoundException(`JobSkill with ID ${id} not found`);
     }
 
-    const updatedData = plainToInstance(JobSkill, updateJobSkillDto);
+    // Validação do DTO - garante que campos imutáveis não sejam alterados
+    if (updateJobSkillDto.jobId) {
+      throw new BadRequestException(
+        `Cannot update jobId. Please create a new JobSkill instead.`,
+      );
+    }
 
-    await this.jobSkillRepository.update(id, updatedData);
+    if (updateJobSkillDto.skillId) {
+      throw new BadRequestException(
+        `Cannot update skillId. Please create a new JobSkill instead.`,
+      );
+    }
 
-    return { message: 'Update successful' };
+    // É permitido alterar somente a experiência requerida do trabalho, caso precise adicionar outra relação a mesma deve ser apagada, evitando conflitos
+    const updatedData = plainToInstance(JobSkill, {
+      ...jobSkill,
+      experienceRequired: updateJobSkillDto.experienceRequired,
+    });
+
+    await this.jobSkillRepository.save(updatedData);
+
+    return { message: 'Update successful', data: updatedData };
   }
 
   async remove(id: string) {
