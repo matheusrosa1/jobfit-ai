@@ -4,8 +4,6 @@ import {
   IsOptional,
   IsEnum,
   IsDate,
-  IsInt,
-  Min,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
@@ -72,9 +70,4 @@ export class CreateJobDto {
   @IsOptional()
   @Type(() => Date)
   postedAt?: Date;
-
-  // alterar experiencia para job-skill
-  @IsInt()
-  @Min(0, { message: 'Experience required must be at least 0 years.' })
-  experienceRequired: number;
 }

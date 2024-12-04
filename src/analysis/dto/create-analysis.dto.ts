@@ -9,6 +9,7 @@ export class CreateAnalysisDto {
   })
   @IsUUID()
   userId: string;
+
   @ApiProperty({
     description: 'The ID of the job to be analyzed.',
     example: 'a0911f7f-9968-4cc2-b8c8-19f5f4cd0909',

@@ -8,8 +8,14 @@ import {
   Length,
   Matches,
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
+  @ApiProperty({
+    description: 'The name of the user.',
+    example: 'John Doe',
+    required: false,
+  })
   @IsOptional()
   @IsString()
   @Length(3, 100, {
@@ -17,10 +23,20 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   })
   name?: string;
 
+  @ApiProperty({
+    description: 'The email of the user.',
+    example: 'test@test.com',
+    required: false,
+  })
   @IsOptional()
   @IsEmail({}, { message: 'The email address provided is invalid.' })
   email?: string;
 
+  @ApiProperty({
+    description: 'The password of the user.',
+    example: 'Password1',
+    required: false,
+  })
   @IsOptional()
   @IsString()
   @Length(6, 50, {
@@ -32,6 +48,11 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   })
   password?: string;
 
+  @ApiProperty({
+    description: 'The role of the user.',
+    example: 'candidate',
+    required: false,
+  })
   @IsEnum(['candidate', 'recruiter'], {
     message: "The role should be 'candidate' or 'recruiter'.",
   })

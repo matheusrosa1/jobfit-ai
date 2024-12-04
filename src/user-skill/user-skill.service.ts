@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserSkillDto } from './dto/create-user-skill.dto';
 import { UpdateUserSkillDto } from './dto/update-user-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,6 +20,17 @@ export class UserSkillService {
     private userService: UserService,
   ) {}
 
+  async checkUserSkillExists(userId: string, skillId: string) {
+    const existingUserSkill = await this.userSkillRepository.findOne({
+      where: {
+        user: { id: userId },
+        skill: { id: skillId },
+      },
+    });
+
+    return existingUserSkill !== null;
+  }
+
   async create(createUserSkillDto: CreateUserSkillDto) {
     const { userId, skillId, yearsOfExperience } = createUserSkillDto;
 
@@ -27,6 +42,13 @@ export class UserSkillService {
     const skill = await this.skillService.findOne(skillId);
     if (!skill) {
       throw new NotFoundException(`Skill with ID ${skillId} not found`);
+    }
+
+    const userSkillExists = await this.checkUserSkillExists(userId, skillId);
+    if (userSkillExists) {
+      throw new BadRequestException(
+        `UserSkill with User ID ${userId} and Skill ID ${skillId} already exists`,
+      );
     }
 
     const userSkill = this.userSkillRepository.create({
@@ -81,30 +103,21 @@ export class UserSkillService {
     }
 
     if (updateUserSkillDto.userId) {
-      const user = await this.userService.findOne(updateUserSkillDto.userId);
-      if (!user) {
-        throw new NotFoundException(
-          `User with ID ${updateUserSkillDto.userId} not found`,
-        );
-      }
-      userSkill.user = user;
+      throw new BadRequestException(
+        'User ID cannot be updated. Please create a new UserSkill instead.',
+      );
     }
-
     if (updateUserSkillDto.skillId) {
-      const skill = await this.skillService.findOne(updateUserSkillDto.skillId);
-      if (!skill) {
-        throw new NotFoundException(
-          `Skill with ID ${updateUserSkillDto.skillId} not found`,
-        );
-      }
-      userSkill.skill = skill;
+      throw new BadRequestException(
+        'Skill ID cannot be updated. Please create a new UserSkill instead.',
+      );
     }
 
-    if (updateUserSkillDto.yearsOfExperience !== undefined) {
-      userSkill.yearsOfExperience = updateUserSkillDto.yearsOfExperience;
-    }
+    userSkill.yearsOfExperience = updateUserSkillDto.yearsOfExperience;
 
-    return this.userSkillRepository.save(userSkill);
+    await this.userSkillRepository.save(userSkill);
+
+    return { message: 'Update successful', data: userSkill };
   }
 
   async remove(id: string) {
