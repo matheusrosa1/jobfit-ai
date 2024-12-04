@@ -9,7 +9,6 @@ import { JobService } from '../job/job.service';
 import { SkillService } from '../skill/skill.service';
 import { Repository } from 'typeorm';
 import { JobSkill } from './entities/job-skill.entity';
-import { plainToInstance } from 'class-transformer';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -97,7 +96,6 @@ export class JobSkillService {
       throw new NotFoundException(`JobSkill with ID ${id} not found`);
     }
 
-    // Validação do DTO - garante que campos imutáveis não sejam alterados
     if (updateJobSkillDto.jobId) {
       throw new BadRequestException(
         `Cannot update jobId. Please create a new JobSkill instead.`,
@@ -110,15 +108,11 @@ export class JobSkillService {
       );
     }
 
-    // É permitido alterar somente a experiência requerida do trabalho, caso precise adicionar outra relação a mesma deve ser apagada, evitando conflitos
-    const updatedData = plainToInstance(JobSkill, {
-      ...jobSkill,
-      experienceRequired: updateJobSkillDto.experienceRequired,
-    });
+    jobSkill.experienceRequired = updateJobSkillDto.experienceRequired;
 
-    await this.jobSkillRepository.save(updatedData);
+    await this.jobSkillRepository.save(jobSkill);
 
-    return { message: 'Update successful', data: updatedData };
+    return { message: 'Update successful', data: jobSkill };
   }
 
   async remove(id: string) {

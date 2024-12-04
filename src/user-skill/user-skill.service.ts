@@ -103,30 +103,21 @@ export class UserSkillService {
     }
 
     if (updateUserSkillDto.userId) {
-      const user = await this.userService.findOne(updateUserSkillDto.userId);
-      if (!user) {
-        throw new NotFoundException(
-          `User with ID ${updateUserSkillDto.userId} not found`,
-        );
-      }
-      userSkill.user = user;
+      throw new BadRequestException(
+        'User ID cannot be updated. Please create a new UserSkill instead.',
+      );
     }
-
     if (updateUserSkillDto.skillId) {
-      const skill = await this.skillService.findOne(updateUserSkillDto.skillId);
-      if (!skill) {
-        throw new NotFoundException(
-          `Skill with ID ${updateUserSkillDto.skillId} not found`,
-        );
-      }
-      userSkill.skill = skill;
+      throw new BadRequestException(
+        'Skill ID cannot be updated. Please create a new UserSkill instead.',
+      );
     }
 
-    if (updateUserSkillDto.yearsOfExperience !== undefined) {
-      userSkill.yearsOfExperience = updateUserSkillDto.yearsOfExperience;
-    }
+    userSkill.yearsOfExperience = updateUserSkillDto.yearsOfExperience;
 
-    return this.userSkillRepository.save(userSkill);
+    await this.userSkillRepository.save(userSkill);
+
+    return { message: 'Update successful', data: userSkill };
   }
 
   async remove(id: string) {
