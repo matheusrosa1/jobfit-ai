@@ -167,7 +167,7 @@ Se preferir não usar Docker, siga os passos abaixo para configurar o ambiente m
     ```bash
     npm run start:dev
 
-A API por padrão estará disponível em http://localhost:{port}.
+A API estará disponível em http://localhost:{port} (caso a variável de ambiente PORT não seja definida no arquivo .env, a portão padrão é 3000).
 
 ---
 
