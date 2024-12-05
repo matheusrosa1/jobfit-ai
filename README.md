@@ -167,7 +167,7 @@ Se preferir não usar Docker, siga os passos abaixo para configurar o ambiente m
     ```bash
     npm run start:dev
 
-A API estará disponível em http://localhost:3000.
+A API por padrão estará disponível em http://localhost:3000.
 
 ---
 
