@@ -131,7 +131,7 @@ O projeto **JobFit-AI** encontra-se em constante desenvolvimento, com novas func
 
         docker-compose up --build
 
-Esse comando vai criar e rodar o contêiner com as dependências do projeto configuradas. Após a execução, a API estará disponível em http://localhost:3000.
+Esse comando vai criar e rodar o contêiner com as dependências do projeto configuradas. Após a execução, a API estará disponível em http://localhost:{port}.
  
 #### 2. Instalação Manual
 
@@ -167,7 +167,7 @@ Se preferir não usar Docker, siga os passos abaixo para configurar o ambiente m
     ```bash
     npm run start:dev
 
-A API por padrão estará disponível em http://localhost:3000.
+A API por padrão estará disponível em http://localhost:{port}.
 
 ---
 
@@ -232,7 +232,7 @@ Exemplo de requisição a uma rota protegida com o token JWT:
 
 Para acessar a documentação **Swagger** da API e verificar os endpoints disponíveis, acesse:
 
-    http://localhost:3000/api
+    http://localhost:{port}/api
 
 ---
 
