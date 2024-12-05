@@ -131,7 +131,7 @@ O projeto **JobFit-AI** encontra-se em constante desenvolvimento, com novas func
 
         docker-compose up --build
 
-Esse comando vai criar e rodar o contêiner com as dependências do projeto configuradas. Após a execução, a API estará disponível em http://localhost:{port}.
+Esse comando vai criar e rodar o contêiner com as dependências do projeto configuradas. Após a execução, a API estará disponível em http://localhost:{port} (caso a variável de ambiente PORT não seja definida no arquivo .env, a porta será definida automaticamente como 3000).
  
 #### 2. Instalação Manual
 
