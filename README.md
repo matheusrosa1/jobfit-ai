@@ -203,10 +203,9 @@ O **JobFit AI** utiliza autenticação baseada em **JSON Web Tokens (JWT)** para
   - **Status 200**: Login bem-sucedido, retorna o token JWT:
     ```json
     {
-      "accessToken": "eyJhbGciOiJIUzI1NiIsInR..."
+      "token": "eyJhbGciOiJIUzI1NiIsInR..."
     }
     ```
-  - **Status 401**: Credenciais inválidas.
 
 ---
 
