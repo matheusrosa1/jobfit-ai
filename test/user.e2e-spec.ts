@@ -8,6 +8,8 @@ import { INestApplication } from '@nestjs/common';
 import { UserService } from '../src/user/user.service';
 import { User } from '../src/user/entities/user.entity';
 import { UserController } from '../src/user/user.controller';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtStrategy } from '../src/auth/jwt.strategy';
 
 describe('UserController (Integration)', () => {
   let app: INestApplication; // Alterando para usar a aplicação como parâmetro
@@ -27,19 +29,29 @@ describe('UserController (Integration)', () => {
             update: jest.fn(),
             find: jest.fn(),
             delete: jest.fn(),
-            clear: jest.fn(), // Mock do método clear
+            clear: jest.fn(),
+          },
+        },
+        {
+          provide: JwtStrategy, // Mockando a estratégia JWT
+          useValue: {
+            validate: jest.fn().mockResolvedValue({ id: 'some-uuid', email: 'test@example.com' }), // Mocka o método de validação
+          },
+        },
+        {
+          provide: AuthGuard('jwt'), // Mockando o AuthGuard
+          useValue: {
+            canActivate: jest.fn(() => true), // Sempre retorna true, como se o JWT fosse válido
           },
         },
       ],
     }).compile();
 
-    app = module.createNestApplication(); // Criando a instância da aplicação
-    await app.init(); // Inicializando a aplicação
+    app = module.createNestApplication();
+    await app.init();
 
     service = module.get<UserService>(UserService);
     repository = module.get<Repository<User>>(getRepositoryToken(User));
-
-    // Limpeza do banco de dados ou qualquer setup necessário para todos os testes
   });
 
   it('deve criar um usuário', async () => {
@@ -70,6 +82,7 @@ describe('UserController (Integration)', () => {
 
     return request(app.getHttpServer()) // Usando a instância da aplicação aqui
       .delete(`/users/${id}`)
+      .set('Authorization', 'Bearer fake-jwt-token') // Passando um token JWT falso
       .expect(200)
       .expect((res) => {
         expect(res.body).toEqual({ affected: 1 });
