@@ -1,4 +1,4 @@
-import { Skill } from 'src/skill/entities/skill.entity';
+import { Skill } from '../../../src/skill/entities/skill.entity';
 import {
   Column,
   Entity,

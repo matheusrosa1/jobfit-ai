@@ -8,7 +8,7 @@ import { UpdateSkillDto } from './dto/update-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Skill } from './entities/skill.entity';
 import { Repository } from 'typeorm';
-import { normalizeSkillName } from 'src/utils/normalizeSkillName';
+import { normalizeSkillName } from '../../src/utils/normalizeSkillName';
 
 @Injectable()
 export class SkillService {
