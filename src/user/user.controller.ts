@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -31,7 +32,11 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+    const user = await this.userService.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`); // Lançando a exceção aqui
+    }
+    return user;
   }
 
   @UseGuards(AuthGuard('jwt'))

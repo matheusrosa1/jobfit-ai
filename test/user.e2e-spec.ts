@@ -102,6 +102,110 @@ describe('UserController (Integration)', () => {
 
   });
 
+  it('deve retornar um usuário', async () => {
+
+    const user = {
+      id: 'some-uuid',
+      name: 'Test User',
+      email: 'teste@example.com',
+      role: 'candidate',
+    };
+
+    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
+      sub: 'some-user-id',
+      email: 'test@example.com',
+    });
+
+    
+    jest.spyOn(service, 'findOne').mockResolvedValue(user as any);
+
+    return request(app.getHttpServer())
+      .get(`/users/${user.id}`)
+      .set('Authorization', 'Bearer fake-jwt-token')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(user);
+      });
+
+  });
+
+  it('deve retornar um erro 404 se o usuário não for encontrado', async () => {
+    const id = 'some-uuid';
+
+    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
+      sub: 'some-user-id',
+      email: 'test@example.com',
+    });
+
+    jest.spyOn(service, 'findOne').mockResolvedValue(null);
+
+    return request(app.getHttpServer())
+      .get(`/users/${id}`)
+      .set('Authorization', 'Bearer fake-jwt-token')
+      .expect(404)
+      .expect((res) => {
+        expect(res.body).toEqual({
+          statusCode: 404,
+          message: `User with ID ${id} not found`,
+          error: 'Not Found',
+        });
+      });
+
+  });
+
+  it('deve atualizar um usuário', async () => {
+    const id = 'some-uuid';
+    const createUserDto = {
+      name: 'Test User',
+      email: 'test@example.com',
+      password: 'password123',
+      role: 'candidate',
+    };
+    const updateUserDto = {
+      name: 'Updated User',
+      email: 'update@email.com',
+    };
+  
+    // Mock do JWT - simulando que o usuário foi autenticado
+    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
+      sub: 'some-user-id',
+      email: 'test@example.com',
+    });
+  
+    // Mock da criação do usuário - simula a criação de um usuário no banco de dados
+    jest.spyOn(service, 'create').mockResolvedValueOnce({
+      ...createUserDto,
+      id, // Atribuindo um id ao usuário recém-criado
+    } as any);
+  
+    // Mock do método 'update' do service - simula que o usuário foi atualizado
+    jest.spyOn(service, 'update').mockResolvedValueOnce({
+      ...updateUserDto,
+      id,
+    } as any);
+  
+    // Criando o usuário antes de tentar a atualização
+    await request(app.getHttpServer())
+      .post('/users') // Criando o usuário
+      .send(createUserDto)
+      .set('Authorization', 'Bearer fake-jwt-token') // Passando o token JWT mockado
+      .expect(201);
+  
+    // Atualizando o usuário após sua criação
+    return request(app.getHttpServer())
+      .patch(`/users/${id}`) // Alteração aqui para PATCH
+      .send(updateUserDto)
+      .set('Authorization', 'Bearer fake-jwt-token')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual({
+          ...updateUserDto,
+          id,
+        });
+      });
+  });
+  
+
   it('deve remover um usuário', async () => {
     const id = 'some-uuid';
 
