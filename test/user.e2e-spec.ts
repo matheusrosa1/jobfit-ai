@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as request from 'supertest'; // Usando supertest para testar a API
-import { INestApplication } from '@nestjs/common';
+import { BadRequestException, INestApplication } from '@nestjs/common';
 import { UserService } from '../src/user/user.service';
 import { User } from '../src/user/entities/user.entity';
 import { UserController } from '../src/user/user.controller';
@@ -75,6 +75,30 @@ describe('UserController (Integration)', () => {
         });
       });
   });
+
+  it('deve retornar erro 400 se o email já estiver em uso', async () => {
+    const createUserDto = {
+      email: 'test@example.com',
+      password: 'password123',
+      name: 'Test User',
+    };
+  
+    // Simulando o lançamento da exceção BadRequestException no serviço
+    jest.spyOn(service, 'create').mockRejectedValueOnce(new BadRequestException('User with email test@example.com already exists'));
+  
+    return request(app.getHttpServer())
+      .post('/users')
+      .send(createUserDto)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body).toEqual({
+          statusCode: 400,
+          message: 'User with email test@example.com already exists',
+          error: 'Bad Request',
+        });
+      });
+  });
+  
 
   it('deve retornar todos os usuários', async () => {
     const users = [
