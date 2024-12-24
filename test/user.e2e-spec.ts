@@ -54,10 +54,10 @@ describe('UserController (Integration)', () => {
     repository = module.get<Repository<User>>(getRepositoryToken(User));
     jwtService = module.get<JwtService>(JwtService);
 
-    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValue({
+    /*jest.spyOn(jwtService, 'verifyAsync').mockResolvedValue({
       sub: 'some-user-id',
       email: 'test@example.com',
-    });
+    }); */
   });
 
   it('deve criar um usuário', async () => {

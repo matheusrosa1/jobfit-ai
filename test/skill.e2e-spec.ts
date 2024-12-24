@@ -53,7 +53,10 @@ describe('SkillController (Integration)', () => {
     repository = module.get<Repository<Skill>>(getRepositoryToken(Skill));
     jwtService = module.get<JwtService>(JwtService);
 
-
+    /*jest.spyOn(jwtService, 'verifyAsync').mockResolvedValue({
+      sub: 'some-user-id',
+      email: 'test@example',
+    });*/
   });
 
   it('deve criar uma skill', async () => {
@@ -71,7 +74,29 @@ describe('SkillController (Integration)', () => {
         expect(res.body).toEqual(createSkillDto);
       });
 
-  });
+  })
+  it('deve retonar um erro caso a skill já exista', async () => {
+    const createSkillDto = {
+      name: 'Test Skill',
+    };
+
+    jest.spyOn(service, 'create').mockResolvedValue(createSkillDto as any);
+
+    const createSkillDto2 = 
+    {
+      name: 'Test Skill',
+    };
+
+    jest.spyOn(service, 'create').mockRejectedValue(new ConflictException('Skill already exists'));
+
+    return request(app.getHttpServer())
+      .post('/skills')
+      .send(createSkillDto)
+      .expect(409)
+      .expect((res) => {
+        expect(res.body.message).toBe('Skill already exists');
+      });
+  })
   it('deve retornar todas as skills', async () => {
     const skills = [{
       id: '1',
