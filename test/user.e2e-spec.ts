@@ -53,6 +53,11 @@ describe('UserController (Integration)', () => {
     service = module.get<UserService>(UserService);
     repository = module.get<Repository<User>>(getRepositoryToken(User));
     jwtService = module.get<JwtService>(JwtService);
+
+    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValue({
+      sub: 'some-user-id',
+      email: 'test@example.com',
+    });
   });
 
   it('deve criar um usuário', async () => {
@@ -110,11 +115,6 @@ describe('UserController (Integration)', () => {
       },
     ];
 
-    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
-      sub: 'some-user-id',
-      email: 'test@example.com',
-    });
-
     jest.spyOn(service, 'findAll').mockResolvedValue(users as any);
 
     return request(app.getHttpServer())
@@ -135,11 +135,6 @@ describe('UserController (Integration)', () => {
       role: 'candidate',
     };
 
-    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
-      sub: 'some-user-id',
-      email: 'test@example.com',
-    });
-
     
     jest.spyOn(service, 'findOne').mockResolvedValue(user as any);
 
@@ -156,10 +151,6 @@ describe('UserController (Integration)', () => {
   it('deve retornar um erro 404 se o usuário não for encontrado', async () => {
     const id = 'some-uuid';
 
-    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
-      sub: 'some-user-id',
-      email: 'test@example.com',
-    });
 
     jest.spyOn(service, 'findOne').mockResolvedValue(null);
 
@@ -190,11 +181,6 @@ describe('UserController (Integration)', () => {
       email: 'update@email.com',
     };
   
-    // Mock do JWT - simulando que o usuário foi autenticado
-    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
-      sub: 'some-user-id',
-      email: 'test@example.com',
-    });
   
     // Mock da criação do usuário - simula a criação de um usuário no banco de dados
     jest.spyOn(service, 'create').mockResolvedValueOnce({
@@ -232,11 +218,6 @@ describe('UserController (Integration)', () => {
 
   it('deve remover um usuário', async () => {
     const id = 'some-uuid';
-
-    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
-      sub: 'some-user-id',
-      email: 'test@example.com',
-    });
 
     jest.spyOn(service, 'remove').mockResolvedValueOnce({ affected: 1 } as any);
 
