@@ -34,8 +34,8 @@ describe('UserController (Integration)', () => {
         {
           provide: JwtService,
           useValue: {
-            signAsync: jest.fn(() => Promise.resolve('fake-jwt-token')), // Mock do método signAsync
-            verifyAsync: jest.fn(() => Promise.resolve({ sub: 'user-id', email: 'test@example.com' })), // Mock do método verifyAsync
+            signAsync: jest.fn(() => Promise.resolve('fake-jwt-token')), 
+            verifyAsync: jest.fn(() => Promise.resolve({ sub: 'user-id', email: 'test@example.com' })),
           },
         },
         
@@ -43,7 +43,7 @@ describe('UserController (Integration)', () => {
     })  
     .overrideGuard(AuthGuard('jwt'))
     .useValue({
-      canActivate: jest.fn(() => true), // Sempre permitir acesso
+      canActivate: jest.fn(() => true),
     })
     .compile();
 
@@ -76,19 +76,45 @@ describe('UserController (Integration)', () => {
       });
   });
 
+  it('deve retornar todos os usuários', async () => {
+    const users = [
+      {
+        id: 'some-uuid',
+        name: 'Test User',
+        email: 'example@example.com',
+        role: 'candidate',
+      },
+    ];
+
+    jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
+      sub: 'some-user-id',
+      email: 'test@example.com',
+    });
+
+    jest.spyOn(service, 'findAll').mockResolvedValue(users as any);
+
+    return request(app.getHttpServer())
+      .get('/users')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(users);
+      });
+
+  });
+
   it('deve remover um usuário', async () => {
     const id = 'some-uuid';
 
     jest.spyOn(jwtService, 'verifyAsync').mockResolvedValueOnce({
       sub: 'some-user-id',
       email: 'test@example.com',
-    }); // Mock do JWT verification
+    });
 
     jest.spyOn(service, 'remove').mockResolvedValueOnce({ affected: 1 } as any);
 
     return request(app.getHttpServer())
       .delete(`/users/${id}`)
-      .set('Authorization', 'Bearer fake-jwt-token') // Passando o token JWT mockado
+      .set('Authorization', 'Bearer fake-jwt-token') 
       .expect(200)
       .expect((res) => {
         expect(res.body).toEqual({ affected: 1 });
@@ -96,7 +122,6 @@ describe('UserController (Integration)', () => {
   });
 
   afterAll(async () => {
-    // Limpeza após os testes, se necessário
     await app.close();
   });
 });
