@@ -188,7 +188,18 @@ describe('SkillController (Integration)', () => {
         expect(res.body.message).toBe(`Skill with ID ${id} not found`);
       });
   })
-    afterAll(async () => {
+
+  it('deve deletar uma skill', async () => {
+    const id = 'some-uuid';
+    jest.spyOn(service, 'remove').mockResolvedValue({ id } as any);
+    return request(app.getHttpServer())
+      .delete(`/skills/${id}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual({ id });
+      });
+  })
+    afterEach(async () => {
       await app.close();
     });
 });

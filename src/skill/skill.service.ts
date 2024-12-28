@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -75,9 +76,19 @@ export class SkillService {
 
   async remove(id: string) {
     const skill = await this.findOne(id);
-    if (!skill) {
-      throw new NotFoundException(`Skill with ID ${id} not found`);
+
+    if (skill.jobs && skill.jobs.length > 0) {
+      throw new BadRequestException(
+        `Cannot delete skill with ID ${id} because it is associated with jobs.`
+      );
     }
-    await this.skillRepository.remove(skill);
+
+    if (skill.users && skill.users.length > 0) {
+      throw new BadRequestException(
+        `Cannot delete skill with ID ${id} because it is associated with users.`
+      );
+    }  
+
+    return this.skillRepository.remove(skill);
   }
 }
