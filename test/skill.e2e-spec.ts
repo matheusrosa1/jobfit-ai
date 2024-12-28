@@ -15,7 +15,7 @@ describe('SkillController (Integration)', () => {
   let repository: Repository<Skill>;
   let jwtService: JwtService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SkillController],
       providers: [
@@ -112,6 +112,57 @@ describe('SkillController (Integration)', () => {
       });
   })
 
+  it('deve atualizar uma skill', async () => {
+    const id = 'some-uuid';
+    const createSkillDto = {
+      name: 'Test Skill',
+    };
+    const updateSkillDto = {
+      name: 'Updated Skill',
+    }
+    
+    jest.spyOn(service, 'create').mockResolvedValue({
+      id,
+      ...createSkillDto,
+    } as any)
+
+    jest.spyOn(service, 'update').mockResolvedValue({
+      id,
+      ...updateSkillDto,
+    } as any)
+    
+    await request(app.getHttpServer())
+      .post('/skills')
+      .send(createSkillDto)
+      .expect(201);
+    
+    return request(app.getHttpServer())
+      .patch(`/skills/${id}`)
+      .send(updateSkillDto)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual({
+          ...updateSkillDto,
+          id,
+        });
+      });
+  })
+
+  it('deve retornar um erro ao tentar atualizar uma skill que não existe', async () => {
+    const updateSkillDto = {
+      name: 'Test Skill',
+    }
+    jest.spyOn(service, 'update').mockRejectedValue(new NotFoundException(`Skill with ID 1 not found`));
+
+    return request(app.getHttpServer())
+      .patch('/skills/1')
+      .send(updateSkillDto)
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.message).toBe(`Skill with ID 1 not found`);
+      });
+  })
+
   it('deve retornar uma skill', async () => {
     const skill = {
       id: '1',
@@ -134,7 +185,7 @@ describe('SkillController (Integration)', () => {
       .get('/skills/1')
       .expect(404)
       .expect((res) => {
-        expect(res.body.message).toBe('Skill with ID some-uuid not found');
+        expect(res.body.message).toBe(`Skill with ID ${id} not found`);
       });
   })
     afterAll(async () => {
