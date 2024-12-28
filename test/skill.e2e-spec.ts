@@ -1,4 +1,4 @@
-import { ConflictException, INestApplication } from "@nestjs/common";
+import { ConflictException, INestApplication, NotFoundException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -109,6 +109,32 @@ describe('SkillController (Integration)', () => {
       .expect(200)
       .expect((res) => {
         expect(res.body).toEqual(skills);
+      });
+  })
+
+  it('deve retornar uma skill', async () => {
+    const skill = {
+      id: '1',
+      name: 'Test Skill',
+    }
+    jest.spyOn(service, 'findOne').mockResolvedValue(skill as any);
+
+    return request(app.getHttpServer())
+      .get('/skills/1')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(skill);
+      });
+  })
+
+  it('deve retornar um erro caso a skill não exista', async () => {
+    const id = 'some-uuid';
+    jest.spyOn(service, 'findOne').mockRejectedValue(new NotFoundException(`Skill with ID ${id} not found`));
+    return request(app.getHttpServer())
+      .get('/skills/1')
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.message).toBe('Skill with ID some-uuid not found');
       });
   })
     afterAll(async () => {
