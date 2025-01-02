@@ -97,7 +97,10 @@ export class SkillService {
   }
 
   async remove(id: string) {
-    const skill = await this.findOne(id);
+    const skill = await this.skillRepository.findOne({
+      where: { id },
+      relations: ['users', 'jobs'],  // Carrega as relações com usuários e jobs
+    });
 
     if (skill.jobs && skill.jobs.length > 0) {
       throw new BadRequestException(
