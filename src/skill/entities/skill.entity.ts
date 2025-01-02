@@ -1,4 +1,4 @@
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../../../src/user/entities/user.entity';
 import { Job } from '../../../src/job/entities/job.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -14,5 +14,5 @@ export class Skill {
   jobs: Job[];
 
   @ManyToMany(() => User, (user) => user.skills)
-  users: User[]; // Adicionado se necessário
+  users: User[];
 }

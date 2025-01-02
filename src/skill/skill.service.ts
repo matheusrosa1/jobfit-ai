@@ -57,20 +57,42 @@ export class SkillService {
   }
 
   async findOne(id: string): Promise<Skill> {
-    const skill = await this.skillRepository.findOne({ where: { id } });
+    return this.skillRepository.findOne({
+      where: { id },
+      relations: ['users', 'jobs'], // Carrega os usuários e jobs relacionados
+    });
+  }
+  
+
+  async update(id: string, updateSkillDto: UpdateSkillDto) {
+    const skill = await this.skillRepository.findOne({
+      where: { id },
+      relations: ['users', 'jobs'],  // Carrega as relações com usuários e jobs
+    });
+  
     if (!skill) {
       throw new NotFoundException(`Skill with ID ${id} not found`);
     }
-    return skill;
-  }
-
-  async update(id: string, updateSkillDto: UpdateSkillDto) {
-    const result = await this.skillRepository.update(id, updateSkillDto);
-
-    if (result.affected === 0) {
-      throw new NotFoundException(`Skill with ID ${id} not found`);
+  
+    // Verificando se a skill está associada a jobs
+    if (skill.jobs && skill.jobs.length > 0) {
+      throw new BadRequestException(
+        `Cannot update skill with ID ${id} because it is associated with jobs.`
+      );
     }
+  
+    // Verificando se a skill está associada a users
+    if (skill.users && skill.users.length > 0) {
+      throw new BadRequestException(
+        `Cannot update skill with ID ${id} because it is associated with users.`
+      );
+    }
+  
+    // Atualiza a skill
+    await this.skillRepository.update(id, updateSkillDto);
 
+    console.log('user skills', skill.users);
+  
     return this.findOne(id);
   }
 
