@@ -33,7 +33,7 @@ export class SkillService {
   }
 
   async create(createSkillDto: CreateSkillDto): Promise<Skill> {
-    const normalizedSkillName = normalizeSkillName(createSkillDto.name);
+    const normalizedSkillName = normalizeSkillName(createSkillDto.name.trim());
 
     try {
       await this.findBySkillName(normalizedSkillName);
