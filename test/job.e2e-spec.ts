@@ -1,4 +1,4 @@
-import { INestApplication } from "@nestjs/common";
+import { INestApplication, NotFoundException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
 import { getRepositoryToken } from "@nestjs/typeorm";
@@ -8,6 +8,7 @@ import { Repository } from "typeorm";
 import * as request from 'supertest';
 import { TestingModule, Test } from '@nestjs/testing';
 import { JobController } from "../src/job/job.controller";
+import { NotFoundError } from "rxjs";
 
 describe('JobController (Integration)', () => {
   let app: INestApplication;
@@ -168,6 +169,73 @@ describe('JobController (Integration)', () => {
         });
       });
   });
+
+  it('deve retornar um erro ao tentar atualizar um job que não existe', async () => {
+    const updatedJobDto = {
+      title: 'Update Title'
+    };
+
+    jest.spyOn(jobService, 'update').mockRejectedValue(new NotFoundException('Job not found'));
+
+    return request(app.getHttpServer())
+      .patch('/jobs/1')
+      .send(updatedJobDto)
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.message).toBe('Job not found');
+      });
+  });
+
+  it('deve retornar um erro ao tentar deletar um job que não existe', async () => {
+    jest.spyOn(jobService, 'remove').mockRejectedValue(new NotFoundException('Job not found'));
+
+    return request(app.getHttpServer())
+      .delete('/jobs/1')
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.message).toBe('Job not found');
+      });
+  });
+
+  it('deve retornar um erro ao tentar buscar um job que não existe', async () => {
+    jest.spyOn(jobService, 'findOne').mockRejectedValue(new NotFoundException('Job not found'));
+
+    return request(app.getHttpServer())
+      .get('/jobs/1')
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.message).toBe('Job not found');
+      });
+  });
+
+  it('deve ser possível deletar um job', async () => {
+    const id = 'some-uuid';
+    const createJobDto = {
+      title: 'Desenvolvedor Fullstack',
+      description: 'Desenvolvimento de aplicações web e mobile',
+      company: 'Empresa Teste',
+      location: 'São Paulo - SP',
+      salaryRange: 5000,
+      jobType: 'on-site',
+    };
+
+    jest.spyOn(jobService, 'create').mockResolvedValue({
+      ...createJobDto,
+      id,
+    } as any);
+
+    jest.spyOn(jobService, 'remove').mockResolvedValueOnce();
+
+    await request(app.getHttpServer())
+      .post('/jobs')
+      .send(createJobDto)
+      .expect(201);
+
+    return request(app.getHttpServer())
+      .delete(`/jobs/${id}`)
+      .expect(200);
+  });
+
   afterEach(async () => {
     await app.close();
   });
