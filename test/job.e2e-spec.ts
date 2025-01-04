@@ -107,6 +107,67 @@ describe('JobController (Integration)', () => {
       });
   });
 
+  it('deve ser possível retornar um job pelo id', async () => {
+    const job = {
+      id: 'some-uuid',
+      title: 'Desenvolvedor Fullstack',
+      description: 'Desenvolvimento de aplicações web e mobile',
+      company: 'Empresa Teste',
+      location: 'São Paulo - SP',
+      salaryRange: 5000,
+      jobType: 'on-site',
+    }
+    jest.spyOn(jobService, 'findOne').mockResolvedValue(job as any);
+
+    return request(app.getHttpServer())
+      .get(`/jobs/${job.id}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(job);
+      });
+  });
+
+  it('deve ser possível atualizar um job', async () => {
+    const id = 'some-uuid';
+    const createJobDto = {
+      title: 'Desenvolvedor Fullstack',
+      description: 'Desenvolvimento de aplicações web e mobile',
+      company: 'Empresa Teste',
+      location: 'São Paulo - SP',
+      salaryRange: 5000,
+      jobType: 'on-site',
+    };
+    const updatedJobDto = {
+      title: 'Update Title'
+    };
+
+    jest.spyOn(jobService, 'create').mockResolvedValue({
+      ...createJobDto,
+      id,
+    } as any);
+
+
+    jest.spyOn(jobService, 'update').mockResolvedValueOnce({
+      ...updatedJobDto,
+      id,
+    } as any);
+
+    await request(app.getHttpServer())
+      .post('/jobs')
+      .send(createJobDto)
+      .expect(201);
+
+    return request(app.getHttpServer())
+      .patch(`/jobs/${id}`)
+      .send(updatedJobDto)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual({
+          ...updatedJobDto,
+          id,
+        });
+      });
+  });
   afterEach(async () => {
     await app.close();
   });
