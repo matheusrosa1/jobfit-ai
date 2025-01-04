@@ -77,6 +77,36 @@ describe('JobController (Integration)', () => {
       });
   });
 
+  it('deve ser possível listar todos os jobs', async () => {
+    const jobs = [
+      {
+        title: 'Desenvolvedor Fullstack',
+        description: 'Desenvolvimento de aplicações web e mobile',
+        company: 'Empresa Teste',
+        location: 'São Paulo - SP',
+        salaryRange: 5000,
+        jobType: 'on-site',
+      },
+      {
+        title: 'Desenvolvedor Frontend',
+        description: 'Desenvolvimento de aplicações web',
+        company: 'Empresa Teste 2',
+        location: 'São Paulo - SP',
+        salaryRange: 4000,
+        jobType: 'remote',
+      },
+    ];
+
+    jest.spyOn(jobService, 'findAll').mockResolvedValue(jobs as any);
+
+    return request(app.getHttpServer())
+      .get('/jobs')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(jobs);
+      });
+  });
+
   afterEach(async () => {
     await app.close();
   });
