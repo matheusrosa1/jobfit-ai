@@ -8,7 +8,7 @@ import { Repository } from "typeorm";
 import * as request from 'supertest';
 import { TestingModule, Test } from '@nestjs/testing';
 import { JobController } from "../src/job/job.controller";
-import { NotFoundError } from "rxjs";
+import { createJobDto, id, jobs, updatedJobDto } from "../mocks/job.mock";
 
 describe('JobController (Integration)', () => {
   let app: INestApplication;
@@ -56,14 +56,6 @@ describe('JobController (Integration)', () => {
   });
 
   it('deve ser possível criar um novo job', async () => {
-    const createJobDto = {
-      title: 'Desenvolvedor Fullstack',
-      description: 'Desenvolvimento de aplicações web e mobile',
-      company: 'Empresa Teste',
-      location: 'São Paulo - SP',
-      salaryRange: 5000,
-      jobType: 'on-site',
-    };
 
     jest.spyOn(jobService, 'create').mockResolvedValue(createJobDto as any);
 
@@ -79,24 +71,6 @@ describe('JobController (Integration)', () => {
   });
 
   it('deve ser possível listar todos os jobs', async () => {
-    const jobs = [
-      {
-        title: 'Desenvolvedor Fullstack',
-        description: 'Desenvolvimento de aplicações web e mobile',
-        company: 'Empresa Teste',
-        location: 'São Paulo - SP',
-        salaryRange: 5000,
-        jobType: 'on-site',
-      },
-      {
-        title: 'Desenvolvedor Frontend',
-        description: 'Desenvolvimento de aplicações web',
-        company: 'Empresa Teste 2',
-        location: 'São Paulo - SP',
-        salaryRange: 4000,
-        jobType: 'remote',
-      },
-    ];
 
     jest.spyOn(jobService, 'findAll').mockResolvedValue(jobs as any);
 
@@ -130,17 +104,7 @@ describe('JobController (Integration)', () => {
 
   it('deve ser possível atualizar um job', async () => {
     const id = 'some-uuid';
-    const createJobDto = {
-      title: 'Desenvolvedor Fullstack',
-      description: 'Desenvolvimento de aplicações web e mobile',
-      company: 'Empresa Teste',
-      location: 'São Paulo - SP',
-      salaryRange: 5000,
-      jobType: 'on-site',
-    };
-    const updatedJobDto = {
-      title: 'Update Title'
-    };
+
 
     jest.spyOn(jobService, 'create').mockResolvedValue({
       ...createJobDto,
@@ -209,15 +173,6 @@ describe('JobController (Integration)', () => {
   });
 
   it('deve ser possível deletar um job', async () => {
-    const id = 'some-uuid';
-    const createJobDto = {
-      title: 'Desenvolvedor Fullstack',
-      description: 'Desenvolvimento de aplicações web e mobile',
-      company: 'Empresa Teste',
-      location: 'São Paulo - SP',
-      salaryRange: 5000,
-      jobType: 'on-site',
-    };
 
     jest.spyOn(jobService, 'create').mockResolvedValue({
       ...createJobDto,

@@ -8,6 +8,7 @@ import { User } from '../src/user/entities/user.entity';
 import { UserController } from '../src/user/user.controller';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
+import { createUserDto, id, updateUserDto, user, users } from '../mocks/user.mock';
 
 describe('UserController (Integration)', () => {
   let app: INestApplication;
@@ -61,12 +62,7 @@ describe('UserController (Integration)', () => {
   });
 
   it('deve criar um usuário', async () => {
-    const createUserDto = {
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'password123',
-      role: 'candidate',
-    };
+    
 
     jest.spyOn(service, 'create').mockResolvedValue(createUserDto as any); // Mock do service
 
@@ -82,12 +78,6 @@ describe('UserController (Integration)', () => {
   });
 
   it('deve retornar erro 400 se o email já estiver em uso', async () => {
-    const createUserDto = {
-      email: 'test@example.com',
-      password: 'password123',
-      name: 'Test User',
-    };
-  
     // Simulando o lançamento da exceção BadRequestException no serviço
     jest.spyOn(service, 'create').mockRejectedValueOnce(new BadRequestException('User with email test@example.com already exists'));
   
@@ -106,15 +96,6 @@ describe('UserController (Integration)', () => {
   
 
   it('deve retornar todos os usuários', async () => {
-    const users = [
-      {
-        id: 'some-uuid',
-        name: 'Test User',
-        email: 'example@example.com',
-        role: 'candidate',
-      },
-    ];
-
     jest.spyOn(service, 'findAll').mockResolvedValue(users as any);
 
     return request(app.getHttpServer())
@@ -127,15 +108,6 @@ describe('UserController (Integration)', () => {
   });
 
   it('deve retornar um usuário', async () => {
-
-    const user = {
-      id: 'some-uuid',
-      name: 'Test User',
-      email: 'teste@example.com',
-      role: 'candidate',
-    };
-
-    
     jest.spyOn(service, 'findOne').mockResolvedValue(user as any);
 
     return request(app.getHttpServer())
@@ -149,9 +121,6 @@ describe('UserController (Integration)', () => {
   });
 
   it('deve retornar um erro 404 se o usuário não for encontrado', async () => {
-    const id = 'some-uuid';
-
-
     jest.spyOn(service, 'findOne').mockResolvedValue(null);
 
     return request(app.getHttpServer())
@@ -176,12 +145,6 @@ describe('UserController (Integration)', () => {
       password: 'password123',
       role: 'candidate',
     };
-    const updateUserDto = {
-      name: 'Updated User',
-      email: 'update@email.com',
-    };
-  
-  
     // Mock da criação do usuário - simula a criação de um usuário no banco de dados
     jest.spyOn(service, 'create').mockResolvedValueOnce({
       ...createUserDto,

@@ -8,6 +8,7 @@ import { SkillController } from "../src/skill/skill.controller";
 import { SkillService } from "../src/skill/skill.service";
 import { Repository } from "typeorm";
 import * as request from 'supertest';
+import { createSkillDto, skills, updateSkillDto, id } from "../mocks/skill.mock";
 
 describe('SkillController (Integration)', () => {
   let app: INestApplication;
@@ -60,9 +61,6 @@ describe('SkillController (Integration)', () => {
   });
 
   it('deve criar uma skill', async () => {
-    const createSkillDto = {
-      name: 'Test Skill',
-    };
 
     jest.spyOn(service, 'create').mockResolvedValue(createSkillDto as any);
 
@@ -76,16 +74,7 @@ describe('SkillController (Integration)', () => {
 
   })
   it('deve retonar um erro caso a skill já exista', async () => {
-    const createSkillDto = {
-      name: 'Test Skill',
-    };
-
     jest.spyOn(service, 'create').mockResolvedValue(createSkillDto as any);
-
-    const createSkillDto2 = 
-    {
-      name: 'Test Skill',
-    };
 
     jest.spyOn(service, 'create').mockRejectedValue(new ConflictException('Skill already exists'));
 
@@ -98,10 +87,6 @@ describe('SkillController (Integration)', () => {
       });
   })
   it('deve retornar todas as skills', async () => {
-    const skills = [{
-      id: '1',
-      name: 'Test Skill',
-    }]
     jest.spyOn(service, 'findAll').mockResolvedValue(skills as any);
 
     return request(app.getHttpServer())
@@ -114,12 +99,7 @@ describe('SkillController (Integration)', () => {
 
   it('deve atualizar uma skill', async () => {
     const id = 'some-uuid';
-    const createSkillDto = {
-      name: 'Test Skill',
-    };
-    const updateSkillDto = {
-      name: 'Updated Skill',
-    }
+    
     
     jest.spyOn(service, 'create').mockResolvedValue({
       id,
@@ -149,9 +129,6 @@ describe('SkillController (Integration)', () => {
   })
 
   it('deve retornar um erro ao tentar atualizar uma skill que não existe', async () => {
-    const updateSkillDto = {
-      name: 'Test Skill',
-    }
     jest.spyOn(service, 'update').mockRejectedValue(new NotFoundException(`Skill with ID 1 not found`));
 
     return request(app.getHttpServer())
@@ -179,7 +156,7 @@ describe('SkillController (Integration)', () => {
   })
 
   it('deve retornar um erro caso a skill não exista', async () => {
-    const id = 'some-uuid';
+    
     jest.spyOn(service, 'findOne').mockRejectedValue(new NotFoundException(`Skill with ID ${id} not found`));
     return request(app.getHttpServer())
       .get('/skills/1')

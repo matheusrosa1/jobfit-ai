@@ -1,0 +1,410 @@
+{
+    "info": {
+        "_postman_id": "7759ac53-0433-4033-a53c-d440349be9ea",
+        "name": "JobFit-AI Project",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "http://localhost:3000/auth",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/auth",
+                            "path": [
+                                "auth"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"email\": \"matheusrosa@gmail.com\",\n  \"password\": \"senha1234\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "item": [
+                {
+                    "name": "http://localhost:3000/users",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/users",
+                            "path": [
+                                "users"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        }
+                    }
+                },
+                {
+                    "name": "http://localhost:3000/users",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/users",
+                            "path": [
+                                "users"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"name\": \"Matheus\",\n  \"email\": \"matheus@test.com\",\n  \"password\": \"password5544\",\n  \"role\": \"candidate\"\n}\n\n"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Jobs",
+            "item": [
+                {
+                    "name": "http://localhost:3000/jobs",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/jobs",
+                            "path": [
+                                "jobs"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"title\": \"Desenvolvedor Full Stack\",\n  \"description\": \"Estamos buscando um desenvolvedor Full Stack para trabalhar em um time de alta performance.\",\n  \"company\": \"TechCorp\",\n  \"location\": \"Vila Velha, ES\",\n  \"jobType\": \"on-site\",\n  \"salaryRange\": \"R$ 1.000 - R$ 3.000\",\n  \"requirements\": \"Experiência com Node.js, React, PostgreSQL, Python, AWS, Java, GO,COBOL e ser pró ativo.\"\n}\n"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Skills",
+            "item": [
+                {
+                    "name": "http://localhost:3000/skills",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/skills",
+                            "path": [
+                                "skills"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        }
+                    }
+                },
+                {
+                    "name": "http://localhost:3000/skills",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/skills",
+                            "path": [
+                                "skills"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MzVmZWM2OC1mNmJmLTRhM2YtOWNkNC1mMzNiYjNkNTAyZWQiLCJlbWFpbCI6Im1hdGhldXNAdGVzdC5jb20iLCJpYXQiOjE3MzU0MDk5OTcsImV4cCI6MTc2Njk0NTk5N30.DDN9fur28IMgesaDSPe87-nkZyVnRPkYxb1N9IfPMxU"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"name\": \"COBOL\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "http://localhost:3000/skills",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "http://localhost:3000/skills/ffb26a8a-43be-4155-a410-83d788817044",
+                            "path": [
+                                "skills",
+                                "ffb26a8a-43be-4155-a410-83d788817044"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MzVmZWM2OC1mNmJmLTRhM2YtOWNkNC1mMzNiYjNkNTAyZWQiLCJlbWFpbCI6Im1hdGhldXNAdGVzdC5jb20iLCJpYXQiOjE3MzU0MDk5OTcsImV4cCI6MTc2Njk0NTk5N30.DDN9fur28IMgesaDSPe87-nkZyVnRPkYxb1N9IfPMxU"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"name\": \"C#\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "http://localhost:3000/skills/ab6231b5-a1b4-4de0-ac71-796b10fbf88e",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/skills/ab6231b5-a1b4-4de0-ac71-796b10fbf88e",
+                            "path": [
+                                "skills",
+                                "ab6231b5-a1b4-4de0-ac71-796b10fbf88e"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        }
+                    }
+                },
+                {
+                    "name": "http://localhost:3000/skills/",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:3000/skills/0d97a8e4-8d8b-4dee-8970-853d556ad0b0",
+                            "path": [
+                                "skills",
+                                "0d97a8e4-8d8b-4dee-8970-853d556ad0b0"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MzVmZWM2OC1mNmJmLTRhM2YtOWNkNC1mMzNiYjNkNTAyZWQiLCJlbWFpbCI6Im1hdGhldXNAdGVzdC5jb20iLCJpYXQiOjE3MzU0MDk5OTcsImV4cCI6MTc2Njk0NTk5N30.DDN9fur28IMgesaDSPe87-nkZyVnRPkYxb1N9IfPMxU"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "User Skills",
+            "item": [
+                {
+                    "name": "http://localhost:3000/user-skills/",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/user-skills/3fe1a180-04dc-4275-97a2-fb1ad74580e4",
+                            "path": [
+                                "user-skills",
+                                "3fe1a180-04dc-4275-97a2-fb1ad74580e4"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        }
+                    }
+                },
+                {
+                    "name": "http://localhost:3000/user-skills",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/user-skills/",
+                            "path": [
+                                "user-skills"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        }
+                    }
+                },
+                {
+                    "name": "http://localhost:3000/user-skills",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "http://localhost:3000/user-skills",
+                            "path": [
+                                "user-skills"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMjM1MDA1NC0yYjhhLTQ3MGQtYTMwZS01NGY2Mzg2MjNhNGUiLCJlbWFpbCI6Im1hdGhldXNyb3NhQGdtYWlsLmNvbSIsImlhdCI6MTczMzE4NjAzMCwiZXhwIjoxNzMzNzkwODMwfQ.9Y_JKY-i8HVPpHKKUaBY6Ec4gSSa66SyYpLhi7Z1DF8"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Job Skills",
+            "item": [
+                {
+                    "name": "http://localhost:3000/job-skills",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:3000/job-skills",
+                            "path": [
+                                "job-skills"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "http://localhost:3000/job-skills",
+                    "request": {
+                        "method": "PATCH",
+                        "url": {
+                            "raw": "http://localhost:3000/job-skills/45dc95d7-3860-4e26-96da-28796255088d",
+                            "path": [
+                                "job-skills",
+                                "45dc95d7-3860-4e26-96da-28796255088d"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMjM1MDA1NC0yYjhhLTQ3MGQtYTMwZS01NGY2Mzg2MjNhNGUiLCJlbWFpbCI6Im1hdGhldXNyb3NhQGdtYWlsLmNvbSIsImlhdCI6MTczMzE4NjAzMCwiZXhwIjoxNzMzNzkwODMwfQ.9Y_JKY-i8HVPpHKKUaBY6Ec4gSSa66SyYpLhi7Z1DF8"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"experienceRequired\": 10\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "AI Analysis",
+            "item": [
+                {
+                    "name": "http://localhost:3000/analysis",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "http://localhost:3000/analysis",
+                            "path": [
+                                "analysis"
+                            ],
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "3000"
+                        },
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MzVmZWM2OC1mNmJmLTRhM2YtOWNkNC1mMzNiYjNkNTAyZWQiLCJlbWFpbCI6Im1hdGhldXNAdGVzdC5jb20iLCJpYXQiOjE3MzU0MDk5OTcsImV4cCI6MTc2Njk0NTk5N30.DDN9fur28IMgesaDSPe87-nkZyVnRPkYxb1N9IfPMxU"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"userId\": \"36a3af8f-3733-445b-aff4-46cbbb1ac4e9\",\n  \"jobId\": \"6187404a-ec9a-43d7-b130-7d4fb8c6817a\"\n}"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
