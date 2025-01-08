@@ -3,9 +3,13 @@ export const createSkillDto = {
 };
 
 export const skills = [{
-  id: '1',
-  name: 'Test Skill',
-}]
+    id: '1',
+    name: 'Test Skill',
+  },
+  {
+    id: '2',
+    name: 'Another Skill',
+  }];
 
 export const updateSkillDto = {
   name: 'Updated Skill',

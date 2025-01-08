@@ -7,10 +7,16 @@ export const createUserDto = {
 
 export const users = [
   {
-    id: 'some-uuid',
+    id: '1',
     name: 'Test User',
-    email: 'example@example.com',
-    role: 'candidate',
+    email: 'testuser@example.com',
+    password: 'securepassword',
+  },
+  {
+    id: '2',
+    name: 'Another User',
+    email: 'anotheruser@example.com',
+    password: 'anotherpassword',
   },
 ];
 
