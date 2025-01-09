@@ -12,7 +12,7 @@ import { Skill } from '../src/skill/entities/skill.entity';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import * as request from 'supertest';
-import { createUserSkillDto, skillId, userId, userSkills } from '../mocks/userSkill.mock';
+import { createUserSkillDto, skillId, updateUserSkillDto, userId, userSkills } from '../mocks/userSkill.mock';
 
 describe('UserSkillsController', () => {
   let controller: UserSkillController;
@@ -99,32 +99,101 @@ describe('UserSkillsController', () => {
       });
   });
 
+  it('should return one user skill', async () => {
+    jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
+    jest.spyOn(service, 'findOne').mockResolvedValue(userSkills[0] as any);
+
+    await request(app.getHttpServer())
+      .post('/user-skills')
+      .send(createUserSkillDto)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual(createUserSkillDto);
+      });
+
+    return request(app.getHttpServer())
+      .get(`/user-skills/${userSkills[0].id}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(userSkills[0]);
+      });
+  });
+
   it('should delete a user skill association', async () => {
-    // Mock da associação de userSkillId
-    const userSkillId = '0c623c50-0009-4db2-98b3-7e0fb8977ec1';
-    const userSkill = { id: userSkillId, userId, skillId, yearsOfExperience: 3 };
-  
+
     // Mock para a criação da associação
-    jest.spyOn(service, 'create').mockResolvedValue(userSkill as any);
+    jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
   
     // Mock para a remoção da associação
-    jest.spyOn(service, 'remove').mockResolvedValue({ id: userSkillId } as any);
+    jest.spyOn(service, 'remove').mockResolvedValue({ id: createUserSkillDto.userSkillId } as any);
   
     // Criação da associação antes do teste de remoção
     await request(app.getHttpServer())
       .post('/user-skills')
-      .send(userSkill)
+      .send(createUserSkillDto)
       .expect(201)
       .expect((res) => {
-        expect(res.body).toEqual(userSkill);
+        expect(res.body).toEqual(createUserSkillDto);
       });
   
     // Teste de remoção
     return request(app.getHttpServer())
-      .delete(`/user-skills/${userSkillId}`)
+      .delete(`/user-skills/${createUserSkillDto.userSkillId}`)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual({ id: userSkillId });
+        expect(res.body).toEqual({ id: createUserSkillDto.userSkillId });
+      });
+  });
+  
+  it('should return a user skill association', async () => {
+    // Mock da associação de userSkillId
+
+
+    // Mock para a criação da associação
+    jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
+
+    // Mock para a busca da associação
+    jest.spyOn(service, 'findOne').mockResolvedValue(createUserSkillDto as any);
+
+    // Criação da associação antes do teste de busca
+    await request(app.getHttpServer())
+      .post('/user-skills')
+      .send(createUserSkillDto)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual(createUserSkillDto);
+      });
+
+    // Teste de busca
+    return request(app.getHttpServer())
+      .get(`/user-skills/${createUserSkillDto.userSkillId}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(createUserSkillDto);
+      });
+  });
+
+  it('should update a user skill association', async () => {
+    jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
+  
+    await request(app.getHttpServer())
+      .post('/user-skills')
+      .send(createUserSkillDto)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual(createUserSkillDto);
+      });
+  
+    const updatedUserSkill = { ...createUserSkillDto, ...updateUserSkillDto };
+  
+    jest.spyOn(service, 'update').mockResolvedValue({ message: 'Update successful', data: updatedUserSkill } as any);
+  
+    return request(app.getHttpServer())
+      .patch(`/user-skills/${createUserSkillDto.userSkillId}`)
+      .send(updateUserSkillDto)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual({ message: 'Update successful', data: updatedUserSkill });
       });
   });
   
