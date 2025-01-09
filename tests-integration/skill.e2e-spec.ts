@@ -53,11 +53,6 @@ describe('SkillController (Integration)', () => {
     service = module.get<SkillService>(SkillService);
     repository = module.get<Repository<Skill>>(getRepositoryToken(Skill));
     jwtService = module.get<JwtService>(JwtService);
-
-    /*jest.spyOn(jwtService, 'verifyAsync').mockResolvedValue({
-      sub: 'some-user-id',
-      email: 'test@example',
-    });*/
   });
 
   it('deve criar uma skill', async () => {

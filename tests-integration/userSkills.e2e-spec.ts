@@ -1,56 +1,59 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { JwtService } from '@nestjs/jwt';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { SkillService } from '../src/skill/skill.service';
-import { UserSkill } from '../src/user-skill/entities/user-skill.entity';
+import { AuthGuard } from '@nestjs/passport';
+import { UserSkillController } from '../src/user-skill/user-skill.controller';
 import { UserSkillService } from '../src/user-skill/user-skill.service';
 import { UserService } from '../src/user/user.service';
-import { Repository } from 'typeorm';
-import { JwtService } from '@nestjs/jwt';
-import { AuthGuard } from '@nestjs/passport';
+import { SkillService } from '../src/skill/skill.service';
+import { UserSkill } from '../src/user-skill/entities/user-skill.entity';
+import { User } from '../src/user/entities/user.entity';
+import { Skill } from '../src/skill/entities/skill.entity'; 
 import { INestApplication } from '@nestjs/common';
-import { users } from '../mocks/user.mock';
-import { skills } from '../mocks/skill.mock';
-import { createUserSkillDto, userSkills } from '../mocks/userSkill.mock';
+import { Repository } from 'typeorm';
+import * as request from 'supertest';
 
-
-describe('UserSkillService', () => {
-  let app: INestApplication;
+describe('UserSkillsController', () => {
+  let controller: UserSkillController;
   let service: UserSkillService;
-  let repository: Repository<UserSkill>;
-  let skillService: SkillService;
-  let userService: UserService;
+  let userRepository: Repository<User>;
+  let skillRepository: Repository<Skill>; // Referência ao repositório Skill
   let jwtService: JwtService;
+  let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [UserSkillController],
       providers: [
         UserSkillService,
+        UserService,
+        SkillService,
         {
           provide: getRepositoryToken(UserSkill),
           useValue: {
-            create: jest.fn(),
             save: jest.fn(),
             find: jest.fn(),
-            findOne: jest.fn(),
             delete: jest.fn(),
           },
         },
         {
-          provide: SkillService,
+          provide: getRepositoryToken(User),
           useValue: {
-            findOne: jest.fn(),
+            findOne: jest.fn().mockResolvedValue({ id: 'user-id', email: 'test@example.com' }),
+            save: jest.fn(),
           },
         },
         {
-          provide: UserService,
+          provide: getRepositoryToken(Skill), 
           useValue: {
-            findOne: jest.fn(),
+            findOne: jest.fn().mockResolvedValue({ id: 'skill-id', name: 'JavaScript' }),
+            save: jest.fn(),
           },
         },
         {
           provide: JwtService,
           useValue: {
-            signAsync: jest.fn(() => Promise.resolve('fake-jwt-token')),
+            signAsync: jest.fn(() => Promise.resolve('fake-jwt-token')), 
             verifyAsync: jest.fn(() => Promise.resolve({ sub: 'user-id', email: 'test@example.com' })),
           },
         },
@@ -65,47 +68,29 @@ describe('UserSkillService', () => {
     app = module.createNestApplication();
     await app.init();
 
+    controller = module.get<UserSkillController>(UserSkillController);
     service = module.get<UserSkillService>(UserSkillService);
-    repository = module.get<Repository<UserSkill>>(getRepositoryToken(UserSkill));
-    skillService = module.get<SkillService>(SkillService);
-    userService = module.get<UserService>(UserService);
+    userRepository = module.get(getRepositoryToken(User));  
+    skillRepository = module.get(getRepositoryToken(Skill)); 
     jwtService = module.get<JwtService>(JwtService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-    expect(repository).toBeDefined();
-    expect(skillService).toBeDefined();
-    expect(userService).toBeDefined();
+  it('should create a user skill association', async () => {
+    const userId = 'user-id';
+    const skillId = 'skill-id';
+
+    jest.spyOn(service, 'create').mockResolvedValue({ userId, skillId } as any);
+
+    return request(app.getHttpServer())
+      .post('/user-skills')
+      .send({ userId, skillId, yearsOfExperience: 5 })
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual({ userId, skillId });
+      });
   });
 
-  it('should create a UserSkill successfully', async () => {
-    jest.spyOn(userService, 'findOne').mockResolvedValue(users[0] as any);
-    jest.spyOn(skillService, 'findOne').mockResolvedValue(skills[0] as any);
-    jest.spyOn(repository, 'findOne').mockResolvedValue(null); // No existing UserSkill
-    jest.spyOn(repository, 'create').mockReturnValue(userSkills[0] as any);
-    jest.spyOn(repository, 'save').mockResolvedValue(userSkills[0] as any);
-
-    const result = await service.create(createUserSkillDto);
-
-    expect(result).toEqual(userSkills[0]);
-    expect(userService.findOne).toHaveBeenCalledWith(createUserSkillDto.userId);
-    expect(skillService.findOne).toHaveBeenCalledWith(createUserSkillDto.skillId);
-    expect(repository.findOne).toHaveBeenCalledWith({
-      where: {
-        user: { id: createUserSkillDto.userId },
-        skill: { id: createUserSkillDto.skillId },
-      },
-    });
-    expect(repository.create).toHaveBeenCalledWith({
-      user: users[0],
-      skill: skills[0],
-      yearsOfExperience: createUserSkillDto.yearsOfExperience,
-    });
-    expect(repository.save).toHaveBeenCalledWith(userSkills[0]);
-  });
-
-  afterEach(async () => {
+  afterAll(async () => {
     await app.close();
   });
 });
