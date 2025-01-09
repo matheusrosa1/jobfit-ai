@@ -1,8 +1,4 @@
-export const createUserSkillDto = {
-  userId: '1',
-  skillId: '1',
-  yearsOfExperience: 5,
-};
+
 
 export const userSkills = [
   {
@@ -20,3 +16,12 @@ export const userSkills = [
 ];
 
 export const id = 'some-user-skill-id';
+
+export const userId = 'user-id';
+export const skillId = 'skill-id';
+
+export const createUserSkillDto = {
+  userId,
+  skillId,
+  yearsOfExperience: 5,
+};

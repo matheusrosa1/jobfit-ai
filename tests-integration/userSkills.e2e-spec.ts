@@ -12,6 +12,7 @@ import { Skill } from '../src/skill/entities/skill.entity';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import * as request from 'supertest';
+import { createUserSkillDto, skillId, userId } from '../mocks/userSkill.mock';
 
 describe('UserSkillsController', () => {
   let controller: UserSkillController;
@@ -76,17 +77,27 @@ describe('UserSkillsController', () => {
   });
 
   it('should create a user skill association', async () => {
-    const userId = 'user-id';
-    const skillId = 'skill-id';
-
     jest.spyOn(service, 'create').mockResolvedValue({ userId, skillId } as any);
 
     return request(app.getHttpServer())
       .post('/user-skills')
-      .send({ userId, skillId, yearsOfExperience: 5 })
+      .send(createUserSkillDto)
       .expect(201)
       .expect((res) => {
         expect(res.body).toEqual({ userId, skillId });
+      });
+  });
+
+  it('should return all user skills', async () => {
+    const userSkills = [{ userId: 'user-id', skillId: 'skill-id' }];
+
+    jest.spyOn(service, 'findAll').mockResolvedValue(userSkills as any);
+
+    return request(app.getHttpServer())
+      .get('/user-skills')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(userSkills);
       });
   });
 
