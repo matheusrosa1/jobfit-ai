@@ -12,7 +12,7 @@ import { Skill } from '../src/skill/entities/skill.entity';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import * as request from 'supertest';
-import { createUserSkillDto, skillId, userId } from '../mocks/userSkill.mock';
+import { createUserSkillDto, skillId, userId, userSkills } from '../mocks/userSkill.mock';
 
 describe('UserSkillsController', () => {
   let controller: UserSkillController;
@@ -89,8 +89,6 @@ describe('UserSkillsController', () => {
   });
 
   it('should return all user skills', async () => {
-    const userSkills = [{ userId: 'user-id', skillId: 'skill-id' }];
-
     jest.spyOn(service, 'findAll').mockResolvedValue(userSkills as any);
 
     return request(app.getHttpServer())
@@ -100,6 +98,37 @@ describe('UserSkillsController', () => {
         expect(res.body).toEqual(userSkills);
       });
   });
+
+  it('should delete a user skill association', async () => {
+    // Mock da associação de userSkillId
+    const userSkillId = '0c623c50-0009-4db2-98b3-7e0fb8977ec1';
+    const userSkill = { id: userSkillId, userId, skillId, yearsOfExperience: 3 };
+  
+    // Mock para a criação da associação
+    jest.spyOn(service, 'create').mockResolvedValue(userSkill as any);
+  
+    // Mock para a remoção da associação
+    jest.spyOn(service, 'remove').mockResolvedValue({ id: userSkillId } as any);
+  
+    // Criação da associação antes do teste de remoção
+    await request(app.getHttpServer())
+      .post('/user-skills')
+      .send(userSkill)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual(userSkill);
+      });
+  
+    // Teste de remoção
+    return request(app.getHttpServer())
+      .delete(`/user-skills/${userSkillId}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual({ id: userSkillId });
+      });
+  });
+  
+  
 
   afterAll(async () => {
     await app.close();
