@@ -1,4 +1,4 @@
-import { INestApplication } from "@nestjs/common";
+import { BadRequestException, INestApplication } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -11,6 +11,8 @@ import { Skill } from "../src/skill/entities/skill.entity";
 import { SkillService } from "../src/skill/skill.service";
 import { Repository } from "typeorm";
 import { JobSkill } from "../src/job-skill/entities/job-skill.entity";
+import { createJobSkillDto, jobId, jobSkills, skillId, updateJobSkillDto } from "../mocks/jobSkill.mock";
+import * as request from 'supertest';
 
 describe('JobSkillsController', () => {
   let controller: JobSkillController;
@@ -76,6 +78,73 @@ describe('JobSkillsController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  it('should create a job skill association', async () => {
+    jest.spyOn(service, 'create').mockResolvedValue({ jobId, skillId } as any);
+
+    return request(app.getHttpServer())
+      .post('/job-skills')
+      .send(createJobSkillDto)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('jobId', jobId);
+        expect(res.body).toHaveProperty('skillId', skillId);
+      });
+  });
+
+  it('should return all job skills', async () => {
+    jest.spyOn(service, 'findAll').mockResolvedValue(jobSkills as any);
+
+      return request(app.getHttpServer())
+        .get('/job-skills')
+        .expect(200)
+        .expect((res) => {
+          expect(res.body).toEqual(jobSkills)
+      });
+  });
+
+  it('should return a job skill by ID', async () => {
+    jest.spyOn(service, 'findOne').mockResolvedValue(jobSkills[0] as any);
+
+    return request(app.getHttpServer())
+      .get(`/job-skills/${jobSkills[0].id}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(jobSkills[0]);
+      });
+  });
+
+  it('should delete a job skill by ID', async () => {
+    jest.spyOn(service, 'remove').mockResolvedValue(jobSkills[0] as any);
+
+    return request(app.getHttpServer())
+      .delete(`/job-skills/${jobSkills[0].id}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(jobSkills[0]);
+      });
+  });
+
+  it('should update a job skill by ID', async () => {
+    jest.spyOn(service, 'update').mockResolvedValue(jobSkills[0] as any);
+
+    return request(app.getHttpServer())
+      .patch(`/job-skills/${jobSkills[0].id}`)
+      .send(updateJobSkillDto)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(jobSkills[0]);
+      });
+  });
+
+  it('should throw BadRequestException when creating a job skill association that already exists', async () => {
+    jest.spyOn(service, 'create').mockRejectedValue(new BadRequestException());
+
+    return request(app.getHttpServer())
+      .post('/job-skills')
+      .send(createJobSkillDto)
+      .expect(400);
   });
 
   beforeAll(() => {

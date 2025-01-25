@@ -20,7 +20,7 @@ export class JobSkillService {
     private readonly skillService: SkillService,
   ) {}
 
-  async checkJobSkillExists(jobId: string, skillId: string) {
+  async checkJobSkillExists(jobId: string, skillId: string): Promise<boolean> {
     const existingJobSkill = await this.jobSkillRepository.findOne({
       where: {
         job: { id: jobId },
