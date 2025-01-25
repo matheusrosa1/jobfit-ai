@@ -174,7 +174,10 @@ describe('UserSkillsController', () => {
   });
 
   it('should update a user skill association', async () => {
+
+
     jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
+    
   
     await request(app.getHttpServer())
       .post('/user-skills')
@@ -196,9 +199,18 @@ describe('UserSkillsController', () => {
         expect(res.body).toEqual({ message: 'Update successful', data: updatedUserSkill });
       });
   });
-  
-  
 
+  it('should return all user skills by user id', async () => {
+    jest.spyOn(service, 'findSkillsByUserId').mockResolvedValue(userSkills as any);
+
+    return request(app.getHttpServer())
+      .get(`/user-skills/user/${userId}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(userSkills);
+      });
+  });
+  
   afterAll(async () => {
     await app.close();
   });
