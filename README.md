@@ -81,7 +81,7 @@ O projeto **JobFit-AI** encontra-se em constante desenvolvimento, com novas func
 - **Linguagem**: TypeScript
 - **Integração de IA**: API Gemini
 - **Gerenciamento de Dependências**: npm
-- **Ferramentas de Teste**: Jest (em desenvolvimento)
+- **Ferramentas de Teste**: Jest
 
 ---
 
