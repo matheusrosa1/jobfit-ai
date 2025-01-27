@@ -57,8 +57,6 @@ describe('UserController (Integration)', () => {
   });
 
   it('deve criar um usuário', async () => {
-    
-
     jest.spyOn(service, 'create').mockResolvedValue(createUserDto as any); // Mock do service
 
     return request(app.getHttpServer())
@@ -73,7 +71,6 @@ describe('UserController (Integration)', () => {
   });
 
   it('deve retornar erro 400 se o email já estiver em uso', async () => {
-    // Simulando o lançamento da exceção BadRequestException no serviço
     jest.spyOn(service, 'create').mockRejectedValueOnce(new BadRequestException('User with email test@example.com already exists'));
   
     return request(app.getHttpServer())
@@ -150,12 +147,8 @@ describe('UserController (Integration)', () => {
         });
       });
   });
-  
-  
 
   it('deve remover um usuário', async () => {
-    const id = 'some-uuid';
-
     jest.spyOn(service, 'remove').mockResolvedValueOnce({ affected: 1 } as any);
 
     return request(app.getHttpServer())

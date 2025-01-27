@@ -100,17 +100,10 @@ describe('UserSkillsController', () => {
   });
 
   it('should return one user skill', async () => {
-    jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
+    // Mock da função 'findOne' para retornar a skill de usuário
     jest.spyOn(service, 'findOne').mockResolvedValue(userSkills[0] as any);
-
-    await request(app.getHttpServer())
-      .post('/user-skills')
-      .send(createUserSkillDto)
-      .expect(201)
-      .expect((res) => {
-        expect(res.body).toEqual(createUserSkillDto);
-      });
-
+  
+    // Realizando a requisição GET para buscar a skill do usuário
     return request(app.getHttpServer())
       .get(`/user-skills/${userSkills[0].id}`)
       .expect(200)
@@ -118,25 +111,13 @@ describe('UserSkillsController', () => {
         expect(res.body).toEqual(userSkills[0]);
       });
   });
+  
 
   it('should delete a user skill association', async () => {
-
-    // Mock para a criação da associação
-    jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
-  
-    // Mock para a remoção da associação
+    // Mock da remoção da associação
     jest.spyOn(service, 'remove').mockResolvedValue({ id: createUserSkillDto.userSkillId } as any);
   
-    // Criação da associação antes do teste de remoção
-    await request(app.getHttpServer())
-      .post('/user-skills')
-      .send(createUserSkillDto)
-      .expect(201)
-      .expect((res) => {
-        expect(res.body).toEqual(createUserSkillDto);
-      });
-  
-    // Teste de remoção
+    // Teste de remoção diretamente
     return request(app.getHttpServer())
       .delete(`/user-skills/${createUserSkillDto.userSkillId}`)
       .expect(200)
@@ -145,26 +126,12 @@ describe('UserSkillsController', () => {
       });
   });
   
+  
   it('should return a user skill association', async () => {
-    // Mock da associação de userSkillId
-
-
-    // Mock para a criação da associação
-    jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
-
     // Mock para a busca da associação
     jest.spyOn(service, 'findOne').mockResolvedValue(createUserSkillDto as any);
-
-    // Criação da associação antes do teste de busca
-    await request(app.getHttpServer())
-      .post('/user-skills')
-      .send(createUserSkillDto)
-      .expect(201)
-      .expect((res) => {
-        expect(res.body).toEqual(createUserSkillDto);
-      });
-
-    // Teste de busca
+  
+    // Teste de busca diretamente
     return request(app.getHttpServer())
       .get(`/user-skills/${createUserSkillDto.userSkillId}`)
       .expect(200)
@@ -172,34 +139,28 @@ describe('UserSkillsController', () => {
         expect(res.body).toEqual(createUserSkillDto);
       });
   });
+  
 
   it('should update a user skill association', async () => {
-
-
-    jest.spyOn(service, 'create').mockResolvedValue(createUserSkillDto as any);
-    
+    // Mock da função de atualização
+    jest.spyOn(service, 'update').mockResolvedValue({
+      message: 'Update successful',
+      data: { ...createUserSkillDto, ...updateUserSkillDto },
+    } as any);
   
-    await request(app.getHttpServer())
-      .post('/user-skills')
-      .send(createUserSkillDto)
-      .expect(201)
-      .expect((res) => {
-        expect(res.body).toEqual(createUserSkillDto);
-      });
-  
-    const updatedUserSkill = { ...createUserSkillDto, ...updateUserSkillDto };
-  
-    jest.spyOn(service, 'update').mockResolvedValue({ message: 'Update successful', data: updatedUserSkill } as any);
-  
+    // Realizando a requisição de atualização
     return request(app.getHttpServer())
       .patch(`/user-skills/${createUserSkillDto.userSkillId}`)
       .send(updateUserSkillDto)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual({ message: 'Update successful', data: updatedUserSkill });
+        expect(res.body).toEqual({
+          message: 'Update successful',
+          data: { ...createUserSkillDto, ...updateUserSkillDto },
+        });
       });
   });
-
+  
   it('should return all user skills by user id', async () => {
     jest.spyOn(service, 'findSkillsByUserId').mockResolvedValue(userSkills as any);
 

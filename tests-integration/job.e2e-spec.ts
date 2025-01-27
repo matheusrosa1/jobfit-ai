@@ -95,14 +95,11 @@ describe('JobController (Integration)', () => {
   });
 
   it('deve ser possível atualizar um job', async () => {
- 
-    // Mock da função de atualização
     jest.spyOn(jobService, 'update').mockResolvedValueOnce({
       ...updatedJobDto,
       id,
     } as any);
   
-    // Simula a requisição para atualização de um job
     return request(app.getHttpServer())
       .patch(`/jobs/${id}`)
       .send(updatedJobDto)
@@ -151,23 +148,13 @@ describe('JobController (Integration)', () => {
   });
 
   it('deve ser possível deletar um job', async () => {
-
-    jest.spyOn(jobService, 'create').mockResolvedValue({
-      ...createJobDto,
-      id,
-    } as any);
-
     jest.spyOn(jobService, 'remove').mockResolvedValueOnce();
-
-    await request(app.getHttpServer())
-      .post('/jobs')
-      .send(createJobDto)
-      .expect(201);
-
+  
     return request(app.getHttpServer())
       .delete(`/jobs/${id}`)
       .expect(200);
   });
+  
 
   afterEach(async () => {
     await app.close();

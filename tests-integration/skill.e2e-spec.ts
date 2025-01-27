@@ -93,13 +93,11 @@ describe('SkillController (Integration)', () => {
   })
 
   it('deve atualizar uma skill', async () => {
-    // Mock da função de atualização
     jest.spyOn(service, 'update').mockResolvedValueOnce({
       id,
       ...updateSkillDto,
     } as any);
   
-    // Simula a requisição para atualização de uma skill
     return request(app.getHttpServer())
       .patch(`/skills/${id}`)
       .send(updateSkillDto)
