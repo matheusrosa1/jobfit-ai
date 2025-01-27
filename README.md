@@ -36,6 +36,7 @@ JobFit AI é uma aplicação back-end que integra inteligência artificial para 
 - [Configuração e Execução](#configuração-e-execução)
 - [Autenticação JWT](#autenticação-jwt)
 - [Documentação](#documentação)
+- [Execução dos Testes](#execução-dos-testes)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 - [Autor](#autor)
@@ -233,6 +234,18 @@ Exemplo de requisição a uma rota protegida com o token JWT:
 Para acessar a documentação **Swagger** da API e verificar os endpoints disponíveis, acesse:
 
     http://localhost:{port}/api
+
+---
+## Execução dos Testes
+
+Para executar os testes de integração do projeto, utilize o seguinte comando no terminal:
+
+    ```bash
+    npm run test:e2e
+
+Certifique-se de que todas as dependências do projeto estejam instaladas.
+Caso prefira, também é possível executar os testes dentro do ambiente Docker.
+
 
 ---
 
