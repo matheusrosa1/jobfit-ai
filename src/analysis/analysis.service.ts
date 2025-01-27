@@ -1,15 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-/* import { UpdateAnalysisDto } from './dto/update-analysis.dto'; */
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Analysis } from './entities/analysis.entity';
-import { UserSkillService } from 'src/user-skill/user-skill.service';
-import { JobSkillService } from 'src/job-skill/job-skill.service';
-import { GeminiService } from 'src/gemini/gemini.service';
+import { UserSkillService } from '../../src/user-skill/user-skill.service';
+import { JobSkillService } from '../../src/job-skill/job-skill.service';
+import { GeminiService } from '../../src/gemini/gemini.service';
 import { CreateAnalysisDto } from './dto/create-analysis.dto';
-import { JobService } from 'src/job/job.service';
-import { generateSkillAnalysisPrompt } from 'src/utils/promptGenerator';
-import { UserService } from 'src/user/user.service';
+import { JobService } from '../../src/job/job.service';
+import { generateSkillAnalysisPrompt } from '../../src/utils/promptGenerator';
+import { UserService } from '../../src/user/user.service';
 
 @Injectable()
 export class AnalysisService {

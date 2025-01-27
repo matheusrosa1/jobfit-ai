@@ -1,4 +1,4 @@
-import { Skill } from 'src/skill/entities/skill.entity';
+import { Skill } from '../../../src/skill/entities/skill.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -39,7 +39,7 @@ export class Job {
   @CreateDateColumn({ name: 'posted_at' })
   postedAt: Date;
 
-  @ManyToMany(() => Skill)
+  @ManyToMany(() => Skill, (skill) => skill.jobs)
   @JoinTable({
     name: 'job_skills',
     joinColumn: { name: 'job_id', referencedColumnName: 'id' },

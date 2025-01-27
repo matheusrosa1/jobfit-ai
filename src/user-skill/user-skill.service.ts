@@ -7,8 +7,8 @@ import { CreateUserSkillDto } from './dto/create-user-skill.dto';
 import { UpdateUserSkillDto } from './dto/update-user-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserSkill } from './entities/user-skill.entity';
-import { SkillService } from 'src/skill/skill.service';
-import { UserService } from 'src/user/user.service';
+import { SkillService } from '../../src/skill/skill.service';
+import { UserService } from '../../src/user/user.service';
 import { Repository } from 'typeorm';
 
 @Injectable()

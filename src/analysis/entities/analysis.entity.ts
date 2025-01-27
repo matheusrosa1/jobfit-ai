@@ -5,8 +5,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { Job } from 'src/job/entities/job.entity';
+import { User } from '../../../src/user/entities/user.entity';
+import { Job } from '../../../src/job/entities/job.entity';
 
 @Entity('analysis')
 export class Analysis {

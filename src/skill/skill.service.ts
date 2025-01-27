@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -8,7 +9,7 @@ import { UpdateSkillDto } from './dto/update-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Skill } from './entities/skill.entity';
 import { Repository } from 'typeorm';
-import { normalizeSkillName } from 'src/utils/normalizeSkillName';
+import { normalizeSkillName } from '../../src/utils/normalizeSkillName';
 
 @Injectable()
 export class SkillService {
@@ -32,7 +33,7 @@ export class SkillService {
   }
 
   async create(createSkillDto: CreateSkillDto): Promise<Skill> {
-    const normalizedSkillName = normalizeSkillName(createSkillDto.name);
+    const normalizedSkillName = normalizeSkillName(createSkillDto.name.trim());
 
     try {
       await this.findBySkillName(normalizedSkillName);
@@ -56,28 +57,63 @@ export class SkillService {
   }
 
   async findOne(id: string): Promise<Skill> {
-    const skill = await this.skillRepository.findOne({ where: { id } });
+    return this.skillRepository.findOne({
+      where: { id },
+      relations: ['users', 'jobs'], // Carrega os usuários e jobs relacionados
+    });
+  }
+  
+
+  async update(id: string, updateSkillDto: UpdateSkillDto) {
+    const skill = await this.skillRepository.findOne({
+      where: { id },
+      relations: ['users', 'jobs'],  // Carrega as relações com usuários e jobs
+    });
+  
     if (!skill) {
       throw new NotFoundException(`Skill with ID ${id} not found`);
     }
-    return skill;
-  }
-
-  async update(id: string, updateSkillDto: UpdateSkillDto) {
-    const result = await this.skillRepository.update(id, updateSkillDto);
-
-    if (result.affected === 0) {
-      throw new NotFoundException(`Skill with ID ${id} not found`);
+  
+    // Verificando se a skill está associada a jobs
+    if (skill.jobs && skill.jobs.length > 0) {
+      throw new BadRequestException(
+        `Cannot update skill with ID ${id} because it is associated with jobs.`
+      );
     }
+  
+    // Verificando se a skill está associada a users
+    if (skill.users && skill.users.length > 0) {
+      throw new BadRequestException(
+        `Cannot update skill with ID ${id} because it is associated with users.`
+      );
+    }
+  
+    // Atualiza a skill
+    await this.skillRepository.update(id, updateSkillDto);
 
+    console.log('user skills', skill.users);
+  
     return this.findOne(id);
   }
 
   async remove(id: string) {
-    const skill = await this.findOne(id);
-    if (!skill) {
-      throw new NotFoundException(`Skill with ID ${id} not found`);
+    const skill = await this.skillRepository.findOne({
+      where: { id },
+      relations: ['users', 'jobs'],  // Carrega as relações com usuários e jobs
+    });
+
+    if (skill.jobs && skill.jobs.length > 0) {
+      throw new BadRequestException(
+        `Cannot delete skill with ID ${id} because it is associated with jobs.`
+      );
     }
-    await this.skillRepository.remove(skill);
+
+    if (skill.users && skill.users.length > 0) {
+      throw new BadRequestException(
+        `Cannot delete skill with ID ${id} because it is associated with users.`
+      );
+    }  
+
+    return this.skillRepository.remove(skill);
   }
 }

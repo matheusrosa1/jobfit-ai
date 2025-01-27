@@ -1,4 +1,5 @@
-import { Skill } from 'src/skill/entities/skill.entity';
+import { Exclude } from 'class-transformer';
+import { Skill } from '../../../src/skill/entities/skill.entity';
 import {
   Column,
   Entity,
@@ -18,6 +19,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 
@@ -28,7 +30,7 @@ export class User {
   })
   role: 'candidate' | 'recruiter';
 
-  @ManyToMany(() => Skill)
+  @ManyToMany(() => Skill, (skill) => skill.users)
   @JoinTable({
     name: 'user_skills',
     joinColumn: { name: 'user_id', referencedColumnName: 'id' },

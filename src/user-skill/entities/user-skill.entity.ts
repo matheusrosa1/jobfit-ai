@@ -1,5 +1,5 @@
-import { Skill } from 'src/skill/entities/skill.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Skill } from '../../../src/skill/entities/skill.entity';
+import { User } from '../../../src/user/entities/user.entity';
 import {
   Column,
   Entity,
