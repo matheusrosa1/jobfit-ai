@@ -8,7 +8,7 @@ import { SkillController } from "../src/skill/skill.controller";
 import { SkillService } from "../src/skill/skill.service";
 import { Repository } from "typeorm";
 import * as request from 'supertest';
-import { createSkillDto, skills, updateSkillDto, id } from "../mocks/skill.mock";
+import { createSkillDto, skills, updateSkillDto, id, skill } from "../mocks/skill.mock";
 
 describe('SkillController (Integration)', () => {
   let app: INestApplication;
@@ -93,24 +93,13 @@ describe('SkillController (Integration)', () => {
   })
 
   it('deve atualizar uma skill', async () => {
-    const id = 'some-uuid';
-    
-    
-    jest.spyOn(service, 'create').mockResolvedValue({
-      id,
-      ...createSkillDto,
-    } as any)
-
-    jest.spyOn(service, 'update').mockResolvedValue({
+    // Mock da função de atualização
+    jest.spyOn(service, 'update').mockResolvedValueOnce({
       id,
       ...updateSkillDto,
-    } as any)
-    
-    await request(app.getHttpServer())
-      .post('/skills')
-      .send(createSkillDto)
-      .expect(201);
-    
+    } as any);
+  
+    // Simula a requisição para atualização de uma skill
     return request(app.getHttpServer())
       .patch(`/skills/${id}`)
       .send(updateSkillDto)
@@ -121,7 +110,8 @@ describe('SkillController (Integration)', () => {
           id,
         });
       });
-  })
+  });
+  
 
   it('deve retornar um erro ao tentar atualizar uma skill que não existe', async () => {
     jest.spyOn(service, 'update').mockRejectedValue(new NotFoundException(`Skill with ID 1 not found`));
@@ -136,10 +126,6 @@ describe('SkillController (Integration)', () => {
   })
 
   it('deve retornar uma skill', async () => {
-    const skill = {
-      id: '1',
-      name: 'Test Skill',
-    }
     jest.spyOn(service, 'findOne').mockResolvedValue(skill as any);
 
     return request(app.getHttpServer())

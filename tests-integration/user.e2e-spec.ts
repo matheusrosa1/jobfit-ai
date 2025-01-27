@@ -133,35 +133,13 @@ describe('UserController (Integration)', () => {
   });
 
   it('deve atualizar um usuário', async () => {
-    const id = 'some-uuid';
-    const createUserDto = {
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'password123',
-      role: 'candidate',
-    };
-    // Mock da criação do usuário - simula a criação de um usuário no banco de dados
-    jest.spyOn(service, 'create').mockResolvedValueOnce({
-      ...createUserDto,
-      id, // Atribuindo um id ao usuário recém-criado
-    } as any);
-  
-    // Mock do método 'update' do service - simula que o usuário foi atualizado
     jest.spyOn(service, 'update').mockResolvedValueOnce({
-      ...updateUserDto,
       id,
+      ...updateUserDto,
     } as any);
   
-    // Criando o usuário antes de tentar a atualização
-    await request(app.getHttpServer())
-      .post('/users') // Criando o usuário
-      .send(createUserDto)
-      .set('Authorization', 'Bearer fake-jwt-token') // Passando o token JWT mockado
-      .expect(201);
-  
-    // Atualizando o usuário após sua criação
     return request(app.getHttpServer())
-      .patch(`/users/${id}`) // Alteração aqui para PATCH
+      .patch(`/users/${id}`)
       .send(updateUserDto)
       .set('Authorization', 'Bearer fake-jwt-token')
       .expect(200)
@@ -172,6 +150,7 @@ describe('UserController (Integration)', () => {
         });
       });
   });
+  
   
 
   it('deve remover um usuário', async () => {

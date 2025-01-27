@@ -2,6 +2,11 @@ export const createSkillDto = {
   name: 'Test Skill',
 };
 
+export const skill = {
+  id: '1',
+  name: 'Test Skill',
+}
+
 export const skills = [{
     id: '1',
     name: 'Test Skill',
