@@ -8,7 +8,7 @@ import { Repository } from "typeorm";
 import * as request from 'supertest';
 import { TestingModule, Test } from '@nestjs/testing';
 import { JobController } from "../src/job/job.controller";
-import { createJobDto, id, jobs, updatedJobDto } from "../mocks/job.mock";
+import { createJobDto, id, job, jobs, updatedJobDto } from "../mocks/job.mock";
 
 describe('JobController (Integration)', () => {
   let app: INestApplication;
@@ -83,15 +83,7 @@ describe('JobController (Integration)', () => {
   });
 
   it('deve ser possível retornar um job pelo id', async () => {
-    const job = {
-      id: 'some-uuid',
-      title: 'Desenvolvedor Fullstack',
-      description: 'Desenvolvimento de aplicações web e mobile',
-      company: 'Empresa Teste',
-      location: 'São Paulo - SP',
-      salaryRange: 5000,
-      jobType: 'on-site',
-    }
+
     jest.spyOn(jobService, 'findOne').mockResolvedValue(job as any);
 
     return request(app.getHttpServer())
@@ -103,25 +95,14 @@ describe('JobController (Integration)', () => {
   });
 
   it('deve ser possível atualizar um job', async () => {
-    const id = 'some-uuid';
-
-
-    jest.spyOn(jobService, 'create').mockResolvedValue({
-      ...createJobDto,
-      id,
-    } as any);
-
-
+ 
+    // Mock da função de atualização
     jest.spyOn(jobService, 'update').mockResolvedValueOnce({
       ...updatedJobDto,
       id,
     } as any);
-
-    await request(app.getHttpServer())
-      .post('/jobs')
-      .send(createJobDto)
-      .expect(201);
-
+  
+    // Simula a requisição para atualização de um job
     return request(app.getHttpServer())
       .patch(`/jobs/${id}`)
       .send(updatedJobDto)
@@ -133,12 +114,9 @@ describe('JobController (Integration)', () => {
         });
       });
   });
+  
 
   it('deve retornar um erro ao tentar atualizar um job que não existe', async () => {
-    const updatedJobDto = {
-      title: 'Update Title'
-    };
-
     jest.spyOn(jobService, 'update').mockRejectedValue(new NotFoundException('Job not found'));
 
     return request(app.getHttpServer())

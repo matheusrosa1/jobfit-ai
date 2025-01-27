@@ -1,3 +1,5 @@
+export const jobId = 'some-uuid';
+
 export const createJobDto = {
   title: 'Desenvolvedor Fullstack',
   description: 'Desenvolvimento de aplicações web e mobile',
@@ -12,6 +14,16 @@ export const updatedJobDto = {
 };
 
 export const id = 'some-uuid';
+
+export const job = {
+  id: 'some-uuid',
+  title: 'Desenvolvedor Fullstack',
+  description: 'Desenvolvimento de aplicações web e mobile',
+  company: 'Empresa Teste',
+  location: 'São Paulo - SP',
+  salaryRange: 5000,
+  jobType: 'on-site',
+}
 
 export const jobs = [
   {
