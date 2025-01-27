@@ -19,5 +19,6 @@ import { JobModule } from '../../src/job/job.module';
   ],
   controllers: [AnalysisController],
   providers: [AnalysisService, GeminiService],
+  exports: [AnalysisService],
 })
 export class AnalysisModule {}

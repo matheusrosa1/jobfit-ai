@@ -15,6 +15,10 @@ import { User } from "../src/user/entities/user.entity";
 import { UserService } from "../src/user/user.service";
 import { Repository } from "typeorm";
 import { AnalysisModule } from "../src/analysis/analysis.module";
+import { Analysis } from "../src/analysis/entities/analysis.entity";
+import { Skill } from "../src/skill/entities/skill.entity";
+import { SkillService } from "../src/skill/skill.service";
+import { GeminiService } from "../src/gemini/gemini.service";
 
 describe('AnalysisController', () => {
   let controller: AnalysisController;
@@ -23,6 +27,7 @@ describe('AnalysisController', () => {
   let jobRepository: Repository<Job>;
   let jobSkillRepository: Repository<JobSkill>;
   let userSkillRepository: Repository<UserSkill>;
+  let skillRepository: Repository<Skill>;
   let jwtService: JwtService;
   let app: INestApplication;
 
@@ -35,6 +40,7 @@ describe('AnalysisController', () => {
         JobService,
         JobSkillService,
         UserSkillService,
+        SkillService,
         {
           provide: getRepositoryToken(User),
           useValue: {
@@ -66,11 +72,25 @@ describe('AnalysisController', () => {
           },
         },
         {
-          provide: getRepositoryToken(AnalysisModule),
+          provide: getRepositoryToken(Analysis),
           useValue: {
             save: jest.fn(),
             find: jest.fn(),
             delete: jest.fn(),
+          },
+        },
+        {
+          provide: getRepositoryToken(Skill),
+          useValue: {
+            save: jest.fn(),
+            find: jest.fn(),
+            delete: jest.fn(),
+          },
+        },
+        {
+          provide: GeminiService, // Mock do GeminiService
+          useValue: {
+            performAnalysis: jest.fn().mockResolvedValue({ result: 'mocked-analysis-result' }),
           },
         },
         {
@@ -97,6 +117,7 @@ describe('AnalysisController', () => {
     jobRepository = module.get(getRepositoryToken(Job));
     jobSkillRepository = module.get(getRepositoryToken(JobSkill));
     userSkillRepository = module.get(getRepositoryToken(UserSkill));
+    skillRepository = module.get(getRepositoryToken(Skill));
     jwtService = module.get<JwtService>(JwtService);
 
   });
