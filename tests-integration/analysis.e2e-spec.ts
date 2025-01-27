@@ -1,4 +1,4 @@
-import { INestApplication } from "@nestjs/common";
+import { INestApplication, NotFoundException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -19,6 +19,7 @@ import { Analysis } from "../src/analysis/entities/analysis.entity";
 import { Skill } from "../src/skill/entities/skill.entity";
 import { SkillService } from "../src/skill/skill.service";
 import { GeminiService } from "../src/gemini/gemini.service";
+import * as request from 'supertest';
 
 describe('AnalysisController', () => {
   let controller: AnalysisController;
@@ -126,6 +127,66 @@ describe('AnalysisController', () => {
     expect(controller).toBeDefined();
   });
 
+  it('deve realizar uma análise', async () => {
+    jest.spyOn(service, 'analyzeSkills').mockResolvedValue({ userId: 'user-id', jobId: 'job-id' } as any);
+  
+    return request(app.getHttpServer())
+      .post('/analysis')
+      .send({ userId: 'user-id', jobId: 'job-id' })
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual({ message: 'Analysis successfully generated' });
+      });
+  });
+  
+  it('deve retornar todas as análises', async () => {
+    jest.spyOn(service, 'findAll').mockResolvedValue([{ userId: 'user-id', jobId: 'job-id' }] as any);
+  
+    return request(app.getHttpServer())
+      .get('/analysis')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual([{ userId: 'user-id', jobId: 'job-id' }]);
+      });
+  });
+
+  it('deve retornar uma análise', async () => {
+    jest.spyOn(service, 'findOne').mockResolvedValue({ userId: 'user-id', jobId: 'job-id' } as any);
+  
+    return request(app.getHttpServer())
+      .get('/analysis/1')
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual({ userId: 'user-id', jobId: 'job-id' });
+      });
+  });
+  
+  it('deve retornar erro ao não encontrar análise por ID', async () => {
+    jest.spyOn(service, 'findOne').mockImplementation(() => {
+      throw new NotFoundException('Analysis not found');
+    });
+  
+    return request(app.getHttpServer())
+      .get('/analysis/999') // ID inexistente
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.message).toEqual('Analysis not found');
+      });
+  });
+
+  it('deve retornar erro ao tentar remover uma análise inexistente', async () => {
+    jest.spyOn(service, 'remove').mockImplementation(() => {
+      throw new NotFoundException('Analysis not found');
+    });
+  
+    return request(app.getHttpServer())
+      .delete('/analysis/999') // ID inexistente
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.message).toEqual('Analysis not found');
+      });
+  });
+  
   afterAll(async () => {
     await app.close();
   });

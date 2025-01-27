@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-/* import { UpdateAnalysisDto } from './dto/update-analysis.dto'; */
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Analysis } from './entities/analysis.entity';
