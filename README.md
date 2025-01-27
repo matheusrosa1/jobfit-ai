@@ -240,7 +240,6 @@ Para acessar a documentação **Swagger** da API e verificar os endpoints dispon
 
 Para executar os testes de integração do projeto, utilize o seguinte comando no terminal:
 
-    ```bash
     npm run test:e2e
 
 Certifique-se de que todas as dependências do projeto estejam instaladas.
